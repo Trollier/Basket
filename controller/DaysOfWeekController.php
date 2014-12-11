@@ -7,7 +7,7 @@ class DaysOfWeekController {
         $this->daysOfWeekManager = $daysOfWeekManager;
     }
 
-    public function addRoleType() {
+    public function createDaysOfWeek() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $daysOfWeek = new DaysOfWeek();
@@ -23,21 +23,21 @@ class DaysOfWeekController {
     }
 
     public function getById($id){
-        $roleType = $this->daysOfWeekManager->get($id);
-        return $roleType;
+        $daysOfWeek = $this->daysOfWeekManager->get($id);
+        return $daysOfWeek;
     }
     public function listAll() {
-        return $this->daysOfWeekManager->listAllRoleTypes();
+        return $this->daysOfWeekManager->listAllDaysOfWeek();
     }
 
-    public function listRoleType() {
+    public function listDaysOfWeek() {
         return '/view/daysOfWeek/list-roleType.php';
     }
 
     public function deleteRoleType($id) {
         $this->check($id);
 
-        $this->daysOfWeekManager->deleteRoleType($id);
+        $this->daysOfWeekManager->deleteDaysOfWeek($id);
         if (!isset($_SESSION)) {
             session_destroy();
             session_start();
