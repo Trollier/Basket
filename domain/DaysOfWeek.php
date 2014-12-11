@@ -3,14 +3,14 @@
 class DaysOfWeek {
    
    private $idDay ;
-   private $label;
+   private $Label;
    
    function getIdDay() {
        return $this->idDay;
    }
 
    function getLabel() {
-       return $this->label;
+       return $this->Label;
    }
 
    function setIdDay($idDay) {
@@ -18,7 +18,7 @@ class DaysOfWeek {
    }
 
    function setLabel($label) {
-       $this->label = $label;
+       $this->Label = $label;
    }
 
 

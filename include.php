@@ -13,16 +13,19 @@ require_once '/domain/Player.php';
 require_once '/domain/Staff.php';
 require_once '/domain/RoleType.php';
 require_once '/domain/TypesMatchs.php';
+require_once '/domain/DaysOfWeek.php';
 //model
 require_once "/model/UserManager.php";
 require_once '/model/PlayerManager.php';
 require_once '/model/StaffManager.php';
 require_once '/model/RoleTypeManager.php';
 require_once '/model/TypesMatchManager.php';
+require_once '/model/DaysOfWeekManager.php';
 //controller
 require_once "/controller/UserController.php";
 require_once '/controller/PlayerController.php';
 require_once '/controller/StaffController.php';
 require_once '/controller/RoleTypeController.php';
 require_once '/controller/TypesMatchController.php';
+require_once '/controller/DaysOfWeekController.php';
 

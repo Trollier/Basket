@@ -79,6 +79,15 @@ session_start();
                     <a href="index.php?action=list-typeMatch" class="list-group-item">Liste des types de matchs</a> 
                 </div>
 
+                
+                 <div class="list-group">
+                    <a href="index.php" class="list-group-item active">
+                        days of Week
+                    </a>
+                    <a href="index.php?action=ajout-daysOfWeek" class="list-group-item">Ajout</a>
+                    <a href="index.php?action=list-daysOfWeek" class="list-group-item">Liste jours</a> 
+                </div>
+                
             </div>
             <div class="col-sm-10 col-xs-10 content">
                 <div class="row-fluid">

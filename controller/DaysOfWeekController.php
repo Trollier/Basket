@@ -11,15 +11,13 @@ class DaysOfWeekController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $daysOfWeek = new DaysOfWeek();
-
-            $daysOfWeek->setLabel($_POST['label']);
-            
+            $daysOfWeek->setLabel($_POST["label"]);
                         
-            $this->daysOfWeekManager->createRoleType($roleType);
+            $this->daysOfWeekManager->createDaysOfWeek($daysOfWeek);
             $_SESSION["flash"] = "jour  " . $daysOfWeek->getLabel() . " ajouté avec succès";
             return "/view/bienvenue.php";
         }
-        return '/view/daysOfWeek/ajout-roleType-form.php';
+        return '/view/daysOfWeek/ajout-daysOfWeek-form.php';
     }
 
     public function getById($id){
@@ -31,10 +29,10 @@ class DaysOfWeekController {
     }
 
     public function listDaysOfWeek() {
-        return '/view/daysOfWeek/list-roleType.php';
+        return '/view/daysOfWeek/list-daysOfWeek.php';
     }
 
-    public function deleteRoleType($id) {
+    public function deleteDaysOfWeek($id) {
         $this->check($id);
 
         $this->daysOfWeekManager->deleteDaysOfWeek($id);

@@ -8,6 +8,7 @@ class Router {
     private $staffController;
     private $roleTypeController;
     private $typesMatchController;
+    private $daysOfWeekController;
     public function __construct() {
         $this->IOC = IOC::getInstance();
         $this->userController = $this->IOC["userController"];
@@ -15,6 +16,7 @@ class Router {
         $this->staffController = $this->IOC["staffController"];
         $this->roleTypeController = $this->IOC["roleTypeController"];
         $this->typesMatchController = $this->IOC["typesMatchController"];
+        $this->daysOfWeekController = $this->IOC ["daysOfWeekController"];
     }
 
     public function includeTemplate($action) {
@@ -51,6 +53,10 @@ class Router {
             case "list-typeMatch": return $this->typesMatchController->listTypeMatch();
             case "edit-typeMatch": return $this->typesMatchController->editTypeMatch();
             case 'delete-typeMatch': return $this->typesMatchController->editTypeMatch($id);
+             
+            case "ajout-daysOfWeek": return $this->daysOfWeekController->createDaysOfWeek();
+            case "list-daysOfWeek": return $this->daysOfWeekController->listDaysOfWeek();
+            case 'delete-daysOfWeek': return $this->daysOfWeekController->deleteDaysOfWeek($id);
                 
             default: return '/view/bienvenue.php';
         }
