@@ -9,13 +9,12 @@ class UserManager {
     }
 
     public function create(User $user) {
-        $req = $this->_db->prepare("SELECT max( idUser ) FROM `users` ");
+        $req = $this->_db->prepare("SELECT max( idRole ) FROM `roles`");
         $req->execute();
-        $idUser = $req->fetch();
-        $idUser[0] = $idUser[0] + 1;
+        $idRole = $req->fetch();
+        $idRole[0] = $idRole[0] + 1;
         
-        $req = $this->_db->prepare('INSERT INTO `users`(`idUser`, `name`, '
-                . '`firstname`, `mail`, `password`) VALUES (:idUser,:nom,:prenom,:adresseMail,:password)');
+        $req = $this->_db->prepare('INSERT INTO `roles`(`idRole`, `idUser`, `idRoleType`) VALUES (:idUser,:nom,:prenom,:adresseMail,:password)');
         $req->bindValue(':idUser', $idUser[0]);
         $req->bindValue(':nom', $user->getName());
         $req->bindValue(':prenom', $user->getFirstName());

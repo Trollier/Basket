@@ -9,6 +9,7 @@ class StaffsRoleTypes {
    private $idStaff;
    private $rolelabel;
    private $idStaffRoleType;
+   
    function getIdStaffRoleType() {
        return $this->idStaffRoleType;
    }
