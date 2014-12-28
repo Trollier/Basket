@@ -94,5 +94,24 @@ class StaffController {
         return $var;
     }
 
+    public function validate($staff) {
+        
+        if (strlen($staff->getLabel()) < 2 || strlen($staff->getLabel()) > 20) {
+            
+            throw new ValidationException("La taille du label est incorrect");
+        }
+        if (strlen($staff->getFirstname()) < 2 || strlen($staff->getFirstname()) > 20) {
+            throw new ValidationException("La taille du prénom est incorrect");
+        }
+        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $staff->getName())) {
+            throw new ValidationException("Caractères incorrect dans le nom");
+        }
+        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $staff->getFirstname())) {
+            throw new ValidationException("Caractères incorrect dans le prénom");
+        }
+        if ($this->userManager->getByMail($staff->getMail())) {
+            throw new ValidationException("L'email existe déjà!");
+        }
+    }
 }
 

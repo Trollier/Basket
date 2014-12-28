@@ -56,26 +56,20 @@ class Form {
     }
 
     public function select($id, $label = null, array $options, $value = null) {
+        
         $input = '<div class="form-group">';
         if (isset($label)) {
             $input.="<label for='$id'>$label</label>";
             $input.= "<select id='$id' name='$id' class='form-control'>";
-            foreach ($options as  $option) {
-                $input.="<option value='$option'" . ($value === $option ? " selected='true' " : "") . ">$option</option>";
+            foreach ($options as $k=>$v) {
+                $input.="<option value='$k'" . ($value == $k ? " selected='true' " : "") . ">$v</option>";
             }
             $input.="</select></div>";
             return $input;
         }
-        /**
-         * <select class="form-control">
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-          </select>
-         */
     }
+
+
 
     public function textarea() {
         // to do

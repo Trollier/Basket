@@ -57,7 +57,9 @@ class UserController {
                 $this->validate($user);
             } catch (Exception $e) {
                 $_SESSION["error"] = $e->getMessage();
-                return '/view/user/ajout-user-form.php';
+                $_GET["idUser"] = $user->getidUser();
+
+                return "/view/user/editer-user.php";
             }
 
             $this->userManager->update($user);
@@ -106,9 +108,9 @@ class UserController {
     }
 
     public function validate($user) {
-        
+
         if (strlen($user->getName()) < 2 || strlen($user->getName()) > 20) {
-            
+
             throw new ValidationException("La taille du nom est incorrect");
         }
         if (strlen($user->getFirstname()) < 2 || strlen($user->getFirstname()) > 20) {

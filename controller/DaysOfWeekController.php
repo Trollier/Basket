@@ -50,4 +50,26 @@ class DaysOfWeekController {
         }
         return $var;
     }
+    public function validate($user) {
+        
+        if (strlen($user->getName()) < 2 || strlen($user->getName()) > 20) {
+            
+            throw new ValidationException("La taille du nom est incorrect");
+        }
+        if (strlen($user->getFirstname()) < 2 || strlen($user->getFirstname()) > 20) {
+            throw new ValidationException("La taille du prénom est incorrect");
+        }
+        if (!filter_var($user->getMail(), FILTER_VALIDATE_EMAIL)) {
+            throw new ValidationException("L'email est incorrect.");
+        }
+        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $user->getName())) {
+            throw new ValidationException("Caractères incorrect dans le nom");
+        }
+        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $user->getFirstname())) {
+            throw new ValidationException("Caractères incorrect dans le prénom");
+        }
+        if ($this->userManager->getByMail($user->getMail())) {
+            throw new ValidationException("L'email existe déjà!");
+        }
+    }
 }

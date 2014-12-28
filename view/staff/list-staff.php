@@ -11,6 +11,7 @@ $staffs = $staffController->listAll();
             <th>label</th>
             <th>ordre</th>
             <th>ShowInMenu</th>            
+            <th>ShowInMenu</th>            
             <th>Editer</th>
             <th>Supprimer</th>
             <th>Activer/Désactiver</th>

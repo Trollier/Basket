@@ -6,9 +6,8 @@ and open the template in the editor.
 -->
 <?php
 session_start();
+require_once("include.php");
 ?>
-<?php require_once("include.php") ?>
-
 <html>
     <head>
         <meta charset="utf-8" />
@@ -30,7 +29,7 @@ session_start();
         <div class="row-fluid">
 
             <div class="col-sm-2 col-xs-2 col left-menu">
-               
+
                 <!-- Utilisateurs -->
                 <div class="list-group">
                     <a href="index.php" class="list-group-item active">
@@ -69,7 +68,13 @@ session_start();
                     <a href="index.php?action=list-roleType" class="list-group-item">Liste des roleTypes</a> 
                 </div>
 
-
+                <div class="list-group">
+                    <a href="index.php" class="list-group-item active">
+                        StaffsRoleType
+                    </a>
+                    <a href="index.php?action=list-staff-roletype" class="list-group-item">Liste des StaffsroleTypes</a> 
+                    <a href="index.php?action=ajout-staff-roletype" class="list-group-item">Ajout</a> 
+                </div>
 
                 <div class="list-group">
                     <a href="index.php" class="list-group-item active">
@@ -79,15 +84,15 @@ session_start();
                     <a href="index.php?action=list-typeMatch" class="list-group-item">Liste des types de matchs</a> 
                 </div>
 
-                
-                 <div class="list-group">
+
+                <div class="list-group">
                     <a href="index.php" class="list-group-item active">
                         days of Week
                     </a>
                     <a href="index.php?action=ajout-daysOfWeek" class="list-group-item">Ajout</a>
                     <a href="index.php?action=list-daysOfWeek" class="list-group-item">Liste jours</a> 
                 </div>
-                
+
             </div>
             <div class="col-sm-10 col-xs-10 content">
                 <div class="row-fluid">

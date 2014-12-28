@@ -18,6 +18,8 @@ class IOC implements ArrayAccess {
         $this->container["typesMatchController"] = new TypesMatchController($this->container["typesMatchManager"]);
         $this->container["daysOfWeekManager"] = new DaysOfWeekManager ();
         $this->container["daysOfWeekController"] = new DaysOfWeekController($this->container["daysOfWeekManager"]);
+        $this->container["staffsRoleTypeManager"] = new StaffsRoleTypesManager($this->container["staffManager"], $this->container["roleTypeManager"]);
+        $this->container["staffsRoleTypeController"] = new StaffsRoleTypeController($this->container["staffsRoleTypeManager"]);
     }
 
     public static function getInstance() {
