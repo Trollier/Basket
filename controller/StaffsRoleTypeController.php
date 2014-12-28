@@ -86,7 +86,7 @@ class StaffsRoleTypeController {
     }
 
     public function validate($staffRoleType) {
-        if ($this->staffsRoleTypeManager->getByIdRoletypeAndIdStaff($staffRoleType->getIdRoleType(), $staffRoleType->getIdStaff(),$staffRoleType->getIdStaffRoleType())) {
+        if ($this->staffsRoleTypeManager->getByIdRoletypeAndIdStaff($staffRoleType->getIdRoleType(), $staffRoleType->getIdStaff())) {
             throw new ValidationException("Le staff roletype existe déjà!!");
         }
 //        

@@ -31,7 +31,7 @@ class RoleController {
 
             $role = new Role();
             $role->setIdUser($_POST['idUser']);
-            $role->setIdRoleType($_POST['idRoleType']);
+            $role->setRoleTypeId($_POST['idRoleType']);
             try {
                 $this->validate($role);
             } catch (Exception $e) {
@@ -55,14 +55,15 @@ class RoleController {
     public function edit() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $role = new Role();
-            $role->setIdStaff($_POST['idUser']);
-            $role->setIdRoleType($_POST['idRoleType']);
-            $role->setIdStaffRoleType($_POST['idRole']);
+            $role->setIdUser($_POST['idUser']);
+            $role->setRoleTypeId($_POST['idRoleType']);
+            $role->setIdRole($_POST['idRole']);
             try {
                 $this->validate($role);
+                
             } catch (Exception $e) {
                 $_SESSION["error"] = $e->getMessage();
-                $_GET["idStaffRoleype"] = $role->getIdRole();
+                $_GET["idRole"] = $role->getIdRole();
 
                 return "/view/role/editer-role.php";
             }
@@ -87,9 +88,10 @@ class RoleController {
     }
 
     public function validate($role) {
-        if ($this->staffsRoleTypeManager->getByIdRoletypeAndIdStaff($role->getIdRole(), $role->getIdUser(),$role->getIdStaffRoleType())) {
+       
+        if ($this->roleManager->getByIdRoletypeAndIdUser($role->getRoleTypeId(), $role->getIdUser())) {
             throw new ValidationException("Le role existe déjà!!");
-        }
-//        
+       }
+       
     }
 }

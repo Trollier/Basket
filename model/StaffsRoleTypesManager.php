@@ -55,12 +55,12 @@ class StaffsRoleTypesManager {
         }
     }
 
-    public function getByIdRoletypeAndIdStaff($idRoleType, $idStaff,$idStaffRoleType) {
-        $req = $this->_db->prepare("SELECT * FROM `staffsroletypes` WHERE `idStaff` = :idStaff and `idRoleType` = :idRoleType and `idStaffRoleType` !=:idStaffRoleType");
+    public function getByIdRoletypeAndIdStaff($idRoleType, $idStaff) {
+        $req = $this->_db->prepare("SELECT * FROM `staffsroletypes` WHERE `idStaff` = :idStaff and `idRoleType` = :idRoleType ");
         try {
             $req->bindValue(':idStaff', $idStaff);
             $req->bindValue(':idRoleType', $idRoleType);
-            $req->bindValue(':idStaffRoleType', $idStaffRoleType);
+            
             $req->execute();
 
             $result = $req->fetchObject("StaffsRoleTypes");

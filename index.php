@@ -92,7 +92,13 @@ require_once("include.php");
                     <a href="index.php?action=ajout-daysOfWeek" class="list-group-item">Ajout</a>
                     <a href="index.php?action=list-daysOfWeek" class="list-group-item">Liste jours</a> 
                 </div>
-
+                <div class="list-group">
+                    <a href="index.php" class="list-group-item active">
+                        Roles
+                    </a>
+                    <a href="index.php?action=ajout-role" class="list-group-item">Ajout</a>
+                    <a href="index.php?action=list-role"class="list-group-item">Liste roles</a> 
+                </div>
             </div>
             <div class="col-sm-10 col-xs-10 content">
                 <div class="row-fluid">

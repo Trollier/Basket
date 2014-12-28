@@ -28,8 +28,8 @@ class RoleManager {
         
         $req = $this->_db->prepare('INSERT INTO `roles`(`idRole`, `idUser`, `idRoleType`) VALUES (:idRole,:idUser,:idRoleType)');
         $req->bindValue(':idRole', $idRole[0]);
-        $req->bindValue(':idUser', $role->getIdUser);
-        $req->bindValue(':idRoleType', $role->getIdRoleType());
+        $req->bindValue(':idUser', $role->getIdUser());
+        $req->bindValue(':idRoleType', $role->getRoleTypeId());
 
         try {
             $req->execute();
@@ -39,8 +39,7 @@ class RoleManager {
     }
 
     public function listAllRole() {
-        $req = $this->_db->prepare("SELECT name,firstname,label FROM `roles`,users,"
-                . "roletype WHERE roles.idUser= users.idUser and roles.idRoleType = roles.idRoleType");
+        $req = $this->_db->prepare("SELECT users.name,users.firstname,roletype.label,users.idUser,roletype.roleTypeId,roles.idRole FROM `roles`,users,roletype WHERE roles.idUser= users.idUser and roletype.roleTypeId = roles.idRoleType");
         try {
             $req->execute();
             $result = $req->fetchAll(PDO::FETCH_CLASS, "Role");
@@ -50,12 +49,11 @@ class RoleManager {
         }
     }
 
-    public function getByIdRoletypeAndIdUser($idRoleType, $idUser,$idRole) {
-        $req = $this->_db->prepare("SELECT * FROM `roles` WHERE `idUser` = :idUser and `idRoleType` = :idRoleType and `idRole` !=:idRole");
+    public function getByIdRoletypeAndIdUser($idRoleType, $idUser) {
+        $req = $this->_db->prepare("SELECT * FROM `roles` WHERE `idUser` = :idUser and `idRoleType` = :idRoleType ");
         try {
             $req->bindValue(':idUser', $idUser);
             $req->bindValue(':idRoleType', $idRoleType);
-            $req->bindValue(':idRole', $idRole);
             $req->execute();
 
             $result = $req->fetchObject("Role");
@@ -66,12 +64,12 @@ class RoleManager {
     }
 
     public function get($id) {
-        $req = $this->_db->prepare("SELECT * FROM `staffsroletypes` where idStaffRoleType=:id");
+        $req = $this->_db->prepare("SELECT * FROM `roles` where idRole=:id");
         try {
             $req->bindValue(':id', $id);
             $req->execute();
 
-            $result = $req->fetchObject("StaffsRoleTypes");
+            $result = $req->fetchObject("Role");
             return $result;
         } catch (Exception $ex) {
             
@@ -81,8 +79,8 @@ class RoleManager {
     public function update($role) {
         $req = $this->_db->prepare('UPDATE `roles` SET `idUser`=:idUser,`idRoleType`=:idRoleType WHERE `idRole` =:idRole');
         $req->bindValue(':idUser', $role->getIdUser());
-        $req->bindValue(':idRoleType', $role->getIdRoleType());
-        $req->bindValue(':idRole', $role->getIdStaffRoleType());
+        $req->bindValue(':idRoleType', $role->getRoleTypeId());
+        $req->bindValue(':idRole', $role->getIdRole());
 
         try {
             $req->execute();

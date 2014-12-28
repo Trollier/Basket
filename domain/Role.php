@@ -4,7 +4,7 @@ class Role {
  private $firstname;
  private $label;
  private $idUser;
- private $idRoleType;
+ private $roleTypeId;
  private $idRole;
  
  function getName() {
@@ -29,10 +29,15 @@ class Role {
   function getIdUser() {
      return $this->idUser;
  }
-
- function getIdRoleType() {
-     return $this->idRoleType;
+ function getRoleTypeId() {
+     return $this->roleTypeId;
  }
+
+ function setRoleTypeId($roleTypeId) {
+     $this->roleTypeId = $roleTypeId;
+ }
+
+ 
 
  function setName($name) {
      $this->name = $name;
@@ -50,9 +55,7 @@ class Role {
      $this->idUser = $idUser;
  }
 
- function setIdRoleType($idRoleType) {
-     $this->idRoleType = $idRoleType;
- }
+
 
 
 }

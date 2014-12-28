@@ -1,15 +1,28 @@
-
 <?php
-if(isset($_SESSION["error"])){
-    echo "<div class='alert alert-danger'>".$_SESSION['error']."</div>";  
+$ioc = IOC::getInstance();
+$roleManager = $ioc["roleManager"];
+$users= $roleManager->listAllUser();
+$roles= $roleManager->listAllRoleType();
+
+$selectUsers= array();
+$selectRoles= array();
+
+foreach($users as $user){
+    $selectUsers[$user->getIdUser()] = $user->getName(). " ". $user->getFirstName();
+}
+foreach($roles as $role){
+    $selectRoles[$role->getRoleTypeId()] = $role->getLabel();
+}
+if (isset($_SESSION["error"])) {
+    echo "<div class='alert alert-danger'>" . $_SESSION['error'] . "</div>";
     unset($_SESSION["error"]);
 }
-  
 
-$form= new Form("index.php?action=ajout-roleType","post");
+
+$form = new Form("index.php?action=ajout-role", "post");
 echo $form->openForm();
-echo $form->text("label","Label:",array_key_exists("label", $_POST)?$_POST["name"]:null);
-echo $form->number("ordre","Ordre:",array_key_exists("ordre", $_POST)?$_POST["firstname"]:null);
+echo $form->select("idUser", "User:", $selectUsers, array_key_exists("idUser", $_POST) ? $_POST["idUser"] : null);
+echo $form->select("idRoleType", "Role:", $selectRoles, array_key_exists("idRoleType", $_POST) ? $_POST["idRoleType"] : null);
 echo $form->submit();
 echo $form->closeForm();
 ?>
