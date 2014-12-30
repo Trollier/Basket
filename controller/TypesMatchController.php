@@ -53,6 +53,7 @@ class TypesMatchController {
                 $_SESSION["error"] = $e->getMessage();
                 return '/view/typeMatch/ajout-typeMatch-form.php';
             }     
+            
             $this->typesMatchManager->updateTypesMatch ($typeMatch);
 
 
@@ -66,7 +67,6 @@ class TypesMatchController {
         if (!isset($id)) {
             return "/view/bienvenue.php";
         }
-
         return "/view/typeMatch/editer-typeMatch.php";
     }
 
@@ -91,25 +91,25 @@ class TypesMatchController {
         return $var;
     }
     public function validate($typeMatch) {
-        
-        if (strlen($typeMatch->getName()) < 2 || strlen($typeMatch->getName()) > 20) {
-            
-            throw new ValidationException("La taille du nom est incorrect");
-        }
-        if (strlen($typeMatch->getFirstname()) < 2 || strlen($typeMatch->getFirstname()) > 20) {
-            throw new ValidationException("La taille du prénom est incorrect");
-        }
-        if (!filter_var($typeMatch->getMail(), FILTER_VALIDATE_EMAIL)) {
-            throw new ValidationException("L'email est incorrect.");
-        }
-        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $typeMatch->getName())) {
-            throw new ValidationException("Caractères incorrect dans le nom");
-        }
-        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $typeMatch->getFirstname())) {
-            throw new ValidationException("Caractères incorrect dans le prénom");
-        }
-        if ($this->userManager->getByMail($typeMatch->getMail())) {
-            throw new ValidationException("L'email existe déjà!");
-        }
+//        
+//        if (strlen($typeMatch->getName()) < 2 || strlen($typeMatch->getName()) > 20) {
+//            
+//            throw new ValidationException("La taille du nom est incorrect");
+//        }
+//        if (strlen($typeMatch->getFirstname()) < 2 || strlen($typeMatch->getFirstname()) > 20) {
+//            throw new ValidationException("La taille du prénom est incorrect");
+//        }
+//        if (!filter_var($typeMatch->getMail(), FILTER_VALIDATE_EMAIL)) {
+//            throw new ValidationException("L'email est incorrect.");
+//        }
+//        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $typeMatch->getName())) {
+//            throw new ValidationException("Caractères incorrect dans le nom");
+//        }
+//        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $typeMatch->getFirstname())) {
+//            throw new ValidationException("Caractères incorrect dans le prénom");
+//        }
+//        if ($this->userManager->getByMail($typeMatch->getMail())) {
+//            throw new ValidationException("L'email existe déjà!");
+//        }
     }
 }

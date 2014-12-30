@@ -1,6 +1,6 @@
 <?php
 $ioc = IOC::getInstance();
-var_dump($ioc);
+
 $playerController= $ioc["playerController"];
 $idplayer = $_GET["idPlayer"];
 $player = $playerController->getById($idplayer);

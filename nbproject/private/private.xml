@@ -3,14 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/wamp/www/Basket/form/Form.php</file>
-            <file>file:/C:/wamp/www/Basket/domain/StaffsRoleTypes.php</file>
-            <file>file:/C:/wamp/www/Basket/controller/StaffsRoleTypeController.php</file>
-            <file>file:/C:/wamp/www/Basket/config/IOC.php</file>
-            <file>file:/C:/wamp/www/Basket/view/staffsroletypes/ajout-staffroletype-form.php</file>
-            <file>file:/C:/wamp/www/Basket/model/StaffsRoleTypesManager.php</file>
-            <file>file:/C:/wamp/www/Basket/view/staffsroletypes/editer-staffroletype.php</file>
-            <file>file:/C:/wamp/www/Basket/domain/Role.php</file>
+            <file>file:/C:/wamp/www/Basket/view/teams/list-teams.php</file>
+            <file>file:/C:/wamp/www/Basket/controller/TeamsController.php</file>
+            <file>file:/C:/wamp/www/Basket/index.php</file>
+            <file>file:/C:/wamp/www/Basket/view/player/list-player.php</file>
         </group>
     </open-files>
 </project-private>

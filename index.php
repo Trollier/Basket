@@ -1,9 +1,4 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
+
 <?php
 session_start();
 require_once("include.php");
@@ -99,7 +94,15 @@ require_once("include.php");
                     <a href="index.php?action=ajout-role" class="list-group-item">Ajout</a>
                     <a href="index.php?action=list-role"class="list-group-item">Liste roles</a> 
                 </div>
+                 <div class="list-group">
+                    <a href="index.php" class="list-group-item active">
+                        Equipes
+                    </a>
+                    <a href="index.php?action=ajout-teams" class="list-group-item">Ajout</a>
+                    <a href="index.php?action=list-teams"class="list-group-item">Liste equipe</a> 
+                </div>
             </div>
+            
             <div class="col-sm-10 col-xs-10 content">
                 <div class="row-fluid">
                     <?php

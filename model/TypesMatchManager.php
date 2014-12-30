@@ -46,7 +46,8 @@ class TypesMatchManager {
     }
     
     public function updateTypesMatch($typeMatch) {
-        $req = $this->_db->prepare('UPDATE `typesmatchs` SET `idTypeMatch`=:idTypeMatch,`TypeMatch`=:typeMatch');
+        
+        $req = $this->_db->prepare('UPDATE `typesmatchs` SET `TypeMatch`=:typeMatch where`idTypeMatch`=:idTypeMatch');
         $req->bindValue(':idTypeMatch', $typeMatch->getIdTypeMatch());
         $req->bindValue(':typeMatch', $typeMatch->getTypeMatch());
         

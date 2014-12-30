@@ -11,6 +11,7 @@ class Router {
     private $daysOfWeekController;
     private $staffsRoleTypeController;
     private $roleController;
+    private $teamsController;
 
     public function __construct() {
         $this->IOC = IOC::getInstance();
@@ -22,11 +23,14 @@ class Router {
         $this->daysOfWeekController = $this->IOC ["daysOfWeekController"];
         $this->staffsRoleTypeController = $this->IOC ["staffsRoleTypeController"];
         $this->roleController = $this->IOC ["roleController"];
+        $this->teamsController = $this->IOC ["teamsController"];
+        
     }
 
     public function includeTemplate($action) {
         if (isset($_GET["id"])) {
             $id = $_GET["id"];
+       
         }
 
         switch ($action) {
@@ -57,7 +61,7 @@ class Router {
             case "ajout-typeMatch": return $this->typesMatchController->addTypeMatch();
             case "list-typeMatch": return $this->typesMatchController->listTypeMatch();
             case "edit-typeMatch": return $this->typesMatchController->editTypeMatch();
-            case 'delete-typeMatch': return $this->typesMatchController->editTypeMatch($id);
+            case 'delete-typeMatch': return $this->typesMatchController->deleteTypeMatch($id);
 
             case "ajout-daysOfWeek": return $this->daysOfWeekController->createDaysOfWeek();
             case "list-daysOfWeek": return $this->daysOfWeekController->listDaysOfWeek();
@@ -73,6 +77,12 @@ class Router {
             case "delete-role": return $this->roleController->delete($id);
             case "edit-role": return $this->roleController->edit();
 
+            case "ajout-teams": return $this->teamsController->addTeams();
+            case "list-teams": return $this->teamsController->listTeams();
+            case "delete-teams": return $this->teamsController->deleteTeams($id);
+            case "edit-teams": return $this->teamsController->editTeams();
+            case 'activate-teams': return $this->teamsController->activateTeams($id);
+                 
             default: return '/view/bienvenue.php';
         }
     }

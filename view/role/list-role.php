@@ -30,7 +30,7 @@ $roles = $roleManager->listAllRole();
             echo "<td>" . $role->getLabel() . "</td>";
             echo "<td>" . $role->getIdRole() . "</td>";
             echo '<td><a href="index.php?id=' . $role->getIdRole() . '&action=delete-role" class="btn btn-danger btn-xs">Supprimer</a></td>';
-           echo '<td><a href="index.php?id=' . $role->getIdRole()  . '&action=edit-role" class="btn btn-success btn-xs">Editer</a></td>';
+            echo '<td><a href="index.php?id=' . $role->getIdRole()  . '&action=edit-role" class="btn btn-success btn-xs">Editer</a></td>';
 
             echo "</tr>";
         }

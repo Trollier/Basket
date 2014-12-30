@@ -54,6 +54,7 @@ class RoleController {
 
     public function edit() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            
             $role = new Role();
             $role->setIdUser($_POST['idUser']);
             $role->setRoleTypeId($_POST['idRoleType']);

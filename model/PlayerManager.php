@@ -50,7 +50,7 @@ class PlayerManager {
             $result = $req->fetchObject("Player");
             return $result;
         } catch (Exception $ex) {
-            
+            return false;
         }
     }
     

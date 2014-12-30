@@ -10,8 +10,8 @@ if(isset($_SESSION["error"])){
 }
 $form= new Form("index.php?action=edit-typeMatch","post");
 echo $form->openForm();
-echo $form->text("idTypeMatch","id:",$typeMatch->getIdTypeMatch());
-echo $form->text("typeMatch","type:",$typeMatch->getTypeMatch());
+echo $form->text("typeMatch","typeMatch:",$typeMatch->getTypeMatch());
+echo $form->hidden("idTypeMatch",null,$typeMatch->getIdTypeMatch() );
 echo $form->submit("Modifier");
 echo $form->closeForm();
 ?>
