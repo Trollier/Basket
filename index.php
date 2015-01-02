@@ -55,7 +55,9 @@ session_start();
                             <li>
                                 <a class ="menu-ajax" href="index.php?action=list-teamsRanking">Classement</a>
                             </li>
-
+                            <li>
+                                <a class ="menu-ajax" href="index.php?action=list-teamsCoach">TeamsCoach</a>
+                            </li>
 
 
 

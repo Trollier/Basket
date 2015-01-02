@@ -1,7 +1,7 @@
 <?php
 $ioc = IOC::getInstance();
-$teamsRankingManager = $ioc["teamsRankingManager"];
-$teams= $teamsRankingManager->listAllTeams();
+$teamsCoachManager = $ioc["teamsRankingManager"];
+$teams= $teamsCoachManager->listAllTeams();
 
 
 $selectTeams= array();

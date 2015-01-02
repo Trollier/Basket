@@ -13,7 +13,8 @@ class Router {
     private $roleController;
     private $teamsController;
     private $teamsRankingController;
-    
+    private $teamsCoachController;
+
     public function __construct() {
         $this->IOC = IOC::getInstance();
         $this->userController = $this->IOC["userController"];
@@ -26,12 +27,12 @@ class Router {
         $this->roleController = $this->IOC ["roleController"];
         $this->teamsController = $this->IOC ["teamsController"];
         $this->teamsRankingController = $this->IOC["teamsRankingController"];
+        $this->teamsCoachController = $this->IOC["teamsCoachController"];
     }
 
     public function includeTemplate($action) {
         if (isset($_GET["id"])) {
             $id = $_GET["id"];
-       
         }
 
         switch ($action) {
@@ -72,7 +73,7 @@ class Router {
             case "list-staff-roletype": return $this->staffsRoleTypeController->listAll();
             case "delete-staff-roletype": return $this->staffsRoleTypeController->delete($id);
             case "edit-staff-roletype": return $this->staffsRoleTypeController->edit();
-                
+
             case "ajout-role": return $this->roleController->create();
             case "list-role": return $this->roleController->listAll();
             case "delete-role": return $this->roleController->delete($id);
@@ -83,12 +84,17 @@ class Router {
             case "delete-teams": return $this->teamsController->deleteTeams($id);
             case "edit-teams": return $this->teamsController->editTeams();
             case 'activate-teams': return $this->teamsController->activateTeams($id);
-               
+
             case "ajout-teamsRanking": return $this->teamsRankingController->addTeamsRanking();
             case "list-teamsRanking": return $this->teamsRankingController->listTeamsRanking();
             case "delete-teamsRanking": return $this->teamsRankingController->deleteTeamsRanking($id);
             case "edit-teamsRanking": return $this->teamsRankingController->editTeamsRanking();
-                
+
+            case "ajout-teamsCoach": return $this->teamsCoachController->addTeamsCoach();
+            case "list-teamsCoach": return $this->teamsCoachController->listTeamsCoach();
+            case "delete-teamsCoach": return $this->teamsCoachController->deleteTeamsCoach($id);
+            case "edit-teamsCoach": return $this->teamsCoachController->editTeamsCoach();
+
             default: return '/view/bienvenue.php';
         }
     }

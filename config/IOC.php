@@ -8,33 +8,37 @@ class IOC implements ArrayAccess {
     private function __construct() {
         $this->container["userManager"] = new UserManager();
         $this->container["userController"] = new UserController($this->container["userManager"]);
-        
+
         $this->container["playerManager"] = new PlayerManager ();
         $this->container["playerController"] = new PlayerController($this->container["playerManager"]);
-        
+
         $this->container["staffManager"] = new StaffManager ();
         $this->container["staffController"] = new StaffController($this->container["staffManager"]);
-        
+
         $this->container["roleTypeManager"] = new RoleTypeManager ();
         $this->container["roleTypeController"] = new RoleTypeController($this->container["roleTypeManager"]);
-        
+
         $this->container["typesMatchManager"] = new TypesMatchManager ();
         $this->container["typesMatchController"] = new TypesMatchController($this->container["typesMatchManager"]);
-        
+
         $this->container["daysOfWeekManager"] = new DaysOfWeekManager ();
         $this->container["daysOfWeekController"] = new DaysOfWeekController($this->container["daysOfWeekManager"]);
-        
+
         $this->container["staffsRoleTypeManager"] = new StaffsRoleTypesManager($this->container["staffManager"], $this->container["roleTypeManager"]);
         $this->container["staffsRoleTypeController"] = new StaffsRoleTypeController($this->container["staffsRoleTypeManager"]);
-        
+
         $this->container["roleManager"] = new RoleManager($this->container["userManager"], $this->container["roleTypeManager"]);
         $this->container["roleController"] = new RoleController($this->container["roleManager"]);
-        
+
         $this->container["teamsManager"] = new TeamsManager($this->container["playerManager"]);
         $this->container["teamsController"] = new TeamsController($this->container["teamsManager"]);
-        
+
         $this->container["teamsRankingManager"] = new TeamsRankingManager($this->container["teamsManager"]);
         $this->container["teamsRankingController"] = new TeamsRankingController($this->container["teamsRankingManager"]);
+
+
+        $this->container["teamsCoachManager"] = new TeamsCoachManager($this->container["userManager"], $this->container["teamsManager"]);
+        $this->container["teamsCoachController"] = new TeamsCoachController($this->container["teamsCoachManager"]);
     }
 
     public static function getInstance() {

@@ -1,8 +1,8 @@
 <?php
 $ioc = IOC::getInstance();
 
-$teamsRankingManager = $ioc["teamsRankingManager"];
-$teamsRankings = $teamsRankingManager->listAll();
+$teamsCoachManager = $ioc["teamsRankingManager"];
+$teamsRankings = $teamsCoachManager->listAll();
 
 ?>
 <div class="container-fluid">
@@ -31,21 +31,21 @@ $teamsRankings = $teamsRankingManager->listAll();
 
 
         <?php
-        foreach ($teamsRankings as $teamsRanking) {
+        foreach ($teamsRankings as $teamsCoach) {
              
             echo '<tr >';
-            echo "<td>" . $teamsRanking->getPoints() . "</td>";
-            echo "<td>" . $teamsRanking->getName() . "</td>";
-            echo "<td>" . $teamsRanking->getIdRanking() . "</td>";
-            echo "<td>" . $teamsRanking->getIdTeam() . "</td>";
-            echo "<td>" . $teamsRanking->getMyYear() . "</td>";            
-            echo "<td>" . $teamsRanking->getPlayed() . "</td>";
-            echo "<td>" . $teamsRanking->getWin() . "</td>";
-            echo "<td>" . $teamsRanking->getLost() . "</td>";
-            echo "<td>" . $teamsRanking->getDeuce() . "</td>";            
-            echo "<td>" . $teamsRanking->getDateRanking() . "</td>";            
-            echo '<td><a href="index.php?id=' . $teamsRanking->getIdRanking() . '&action=delete-teamsRanking" class="btn btn-danger btn-xs">Supprimer</a></td>';
-            echo '<td><a href="index.php?id=' . $teamsRanking->getIdRanking()  . '&action=edit-teamsRanking" class="btn btn-success btn-xs">Editer</a></td>';
+            echo "<td>" . $teamsCoach->getPoints() . "</td>";
+            echo "<td>" . $teamsCoach->getName() . "</td>";
+            echo "<td>" . $teamsCoach->getIdRanking() . "</td>";
+            echo "<td>" . $teamsCoach->getIdTeam() . "</td>";
+            echo "<td>" . $teamsCoach->getMyYear() . "</td>";            
+            echo "<td>" . $teamsCoach->getPlayed() . "</td>";
+            echo "<td>" . $teamsCoach->getWin() . "</td>";
+            echo "<td>" . $teamsCoach->getLost() . "</td>";
+            echo "<td>" . $teamsCoach->getDeuce() . "</td>";            
+            echo "<td>" . $teamsCoach->getDateRanking() . "</td>";            
+            echo '<td><a href="index.php?id=' . $teamsCoach->getIdRanking() . '&action=delete-teamsRanking" class="btn btn-danger btn-xs">Supprimer</a></td>';
+            echo '<td><a href="index.php?id=' . $teamsCoach->getIdRanking()  . '&action=edit-teamsRanking" class="btn btn-success btn-xs">Editer</a></td>';
             echo "</tr>";
         }
         ?>

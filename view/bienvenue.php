@@ -14,5 +14,5 @@ echo '<div class="alert alert-success">';
 echo '<p>Page D\'accueil</p> ';
 echo '</div>';
 }
-?>
+
 
