@@ -5,6 +5,14 @@ $typesMatchController= $ioc["typesMatchController"];
 $typeMatches = $typesMatchController->listAll();
 
 ?>
+<div class="container-fluid">
+    <p class="pull-right">
+
+                    <a href="index.php?action=ajout-typeMatch" class ="btn btn-warning btn-lg ">Ajout</a>
+
+    </p>
+
+</div>
 <div class="table-responsive">
     <table class="table table-bordered table-striped">
         <tr>

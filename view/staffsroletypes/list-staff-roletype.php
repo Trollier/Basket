@@ -4,6 +4,14 @@ $ioc = IOC::getInstance();
 $staffsRoleTypeManager = $ioc["staffsRoleTypeManager"];
 $staffsRolesTypes = $staffsRoleTypeManager->listAllStaffsRoleTypes();
 ?>
+<div class="container-fluid">
+    <p class="pull-right">
+
+                    <a href="index.php?action=ajout-staff-roletype" class ="btn btn-warning btn-lg ">Ajout</a> 
+
+    </p>
+
+</div>
 <div class="table-responsive">
     <table class="table table-bordered table-striped">
         <tr>

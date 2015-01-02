@@ -43,13 +43,16 @@ class Form {
     public function password($id, $label = null, $value = null) {
         return $this->input("password", $id, $label, $value);
     }
+    
 
     public function input($type, $id, $label = null, $value = null) {
         $input = '<div class="form-group">';
         if (isset($label)) {
             $input.="<label for='$id'>$label</label>";
         }
-        $value = $value ? $value : "";
+        if($value === null){
+            $value = "";
+        }
         $input.="<input type='$type' name='$id' id='$id' class='form-control' value='$value' />";
         $input.="</div>";
         return $input;

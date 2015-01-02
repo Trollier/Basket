@@ -4,6 +4,14 @@ $ioc = IOC::getInstance();
 $playerController= $ioc["playerController"];
 $players = $playerController->listAll();
 ?>
+<div class="container-fluid">
+    <p class="pull-right">
+        
+                    <a class ="btn btn-warning btn-lg "  href="index.php?action=ajout-player" >Ajout</a>
+
+    </p>
+
+</div>
 <div class="table-responsive">
     <table class="table table-bordered table-striped">
         <tr>

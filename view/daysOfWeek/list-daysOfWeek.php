@@ -5,6 +5,14 @@ $daysController= $ioc["daysOfWeekController"];
 $days = $daysController->listAll();
 
 ?>
+<div class="container-fluid">
+    <p class="pull-right">
+
+                    <a href="index.php?action=ajout-daysOfWeek" class ="btn btn-warning btn-lg ">Ajout</a>
+
+    </p>
+
+</div>
 <div class="table-responsive">
     <table class="table table-bordered table-striped">
         <tr>

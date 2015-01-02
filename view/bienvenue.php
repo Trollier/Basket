@@ -8,12 +8,9 @@ if(isset($_SESSION['flash'])){
     unset($_SESSION["flash"]);
 }else{
     
-echo '<div class="alert alert-warning">';
-echo '<p>site</p> ';
+echo '<div class="alert alert-success">';
+echo '<p>Page D\'accueil</p> ';
 echo '</div>';
 }
 ?>
 
-
-<img src="" alt="" />
-<?php ?>

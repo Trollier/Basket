@@ -4,6 +4,14 @@ $ioc = IOC::getInstance();
 $roleTypeController= $ioc["roleTypeController"];
 $roleTypes = $roleTypeController->listAll();
 ?>
+<div class="container-fluid">
+    <p class="pull-right">
+                            <a class ="btn btn-warning btn-lg " href="index.php?action=ajout-roleType" >Ajout</a>
+
+
+    </p>
+
+</div>
 <div class="table-responsive">
     <table class="table table-bordered table-striped">
         <tr>

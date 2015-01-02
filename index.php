@@ -1,127 +1,135 @@
 
 <?php
 session_start();
-require_once("include.php");
 ?>
 <html>
     <head>
         <meta charset="utf-8" />
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
-
+        <link rel="stylesheet" href="css/core.css" />
+        <link rel="stylesheet" href="css/nprogress.css" />
         <title>site</title>
     </head>
     <body>
-        <div class="row-fluid">
-            <div class="container-fluid">
-                <div class="jumbotron">
-                    <h1>site</h1>
+        <div class="container-fluid">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="index.php">Projet PHP</a>
+                    </div>
+                    <div id="navbar" class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li >                                       
+                                <a  class ="menu-ajax" href="index.php?action=list-user" >Utilisateur</a> 
+                            </li>
+                            <li>
+                                <a class ="menu-ajax" href="index.php?action=list-player" >Player</a>
+                            </li>
+                            <li>
+                                <a class ="menu-ajax" href="index.php?action=list-staff" >Staff</a>
+                            </li>
+                            <li>
+                                <a class ="menu-ajax" class ="menu-ajax" href="index.php?action=list-roleType" >RoleType</a>
+                            </li>
+                            <li>
+                                <a class ="menu-ajax" href="index.php?action=list-staff-roletype" >StaffsroleType</a>
+                            </li>
+                            <li>
+                                <a class ="menu-ajax" href="index.php?action=list-typeMatch" >MatchType</a>
+                            </li>
+                            <li>
+                                <a class ="menu-ajax" href="index.php?action=list-daysOfWeek" >Jour</a>
+                            </li>
+                            <li>
+                                <a class ="menu-ajax" href="index.php?action=list-role">Role</a>
+                            </li>
+                            <li>
+                                <a class ="menu-ajax" href="index.php?action=list-teams">Team</a>
+                            </li>
+                            <li>
+                                <a class ="menu-ajax" href="index.php?action=list-teamsRanking">Classement</a>
+                            </li>
+
+                        </ul>
+
+                    </div><!--/.nav-collapse -->
+                </div><!--/.container-fluid -->
+            </nav>
+            <div class="row-fluid">
+                <div class="container-fluid">
+                    <div class="jumbotron">
+                        <h1>Projet PHP - Brahim Boukobba<small>&nbsp;(fortement aidé par Nordine Bittich)</small></h1>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row-fluid">
+
+
+                <div class="container-fluid ">
+
+                    <div class="content-hidden">
+                       <?php include_once("ajax_router.php");?>
+                    </div>
 
                 </div>
+
             </div>
 
         </div>
 
-        <div class="row-fluid">
-
-            <div class="col-sm-2 col-xs-2 col left-menu">
-
-                <!-- Utilisateurs -->
-                <div class="list-group">
-                    <a href="index.php" class="list-group-item active">
-                        Utilisateurs
-                    </a>
-                    <a href="index.php?action=ajout-user" class="list-group-item">Ajout</a>
-                    <a href="index.php?action=list-user" class="list-group-item">Liste des utilisateurs</a> 
-                </div>
-                <!-- Players -->
-
-                <div class="list-group">
-                    <a href="index.php" class="list-group-item active">
-                        Player
-                    </a>
-                    <a href="index.php?action=ajout-player" class="list-group-item">Ajout</a>
-                    <a href="index.php?action=list-player" class="list-group-item">Liste des players</a> 
 
 
-                </div>
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/bootstrap.js"></script>
+        <script type="text/javascript" src="js/nprogress.js"></script>
+        <script>
+            $(document).ready(function () {
+                NProgress.configure({ease: 'ease', speed: 500, showSpinner: false });
 
-                <div class="list-group">
-                    <a href="index.php" class="list-group-item active">
-                        Staff
-                    </a>
-                    <a href="index.php?action=ajout-staff" class="list-group-item">Ajout</a>
-                    <a href="index.php?action=list-staff" class="list-group-item">Liste des staff</a> 
-
-
-                </div>
-
-                <div class="list-group">
-                    <a href="index.php" class="list-group-item active">
-                        RoleType
-                    </a>
-                    <a href="index.php?action=ajout-roleType" class="list-group-item">Ajout</a>
-                    <a href="index.php?action=list-roleType" class="list-group-item">Liste des roleTypes</a> 
-                </div>
-
-                <div class="list-group">
-                    <a href="index.php" class="list-group-item active">
-                        StaffsRoleType
-                    </a>
-                    <a href="index.php?action=list-staff-roletype" class="list-group-item">Liste des StaffsroleTypes</a> 
-                    <a href="index.php?action=ajout-staff-roletype" class="list-group-item">Ajout</a> 
-                </div>
-
-                <div class="list-group">
-                    <a href="index.php" class="list-group-item active">
-                        TypeMatch
-                    </a>
-                    <a href="index.php?action=ajout-typeMatch" class="list-group-item">Ajout</a>
-                    <a href="index.php?action=list-typeMatch" class="list-group-item">Liste des types de matchs</a> 
-                </div>
-
-
-                <div class="list-group">
-                    <a href="index.php" class="list-group-item active">
-                        days of Week
-                    </a>
-                    <a href="index.php?action=ajout-daysOfWeek" class="list-group-item">Ajout</a>
-                    <a href="index.php?action=list-daysOfWeek" class="list-group-item">Liste jours</a> 
-                </div>
-                <div class="list-group">
-                    <a href="index.php" class="list-group-item active">
-                        Roles
-                    </a>
-                    <a href="index.php?action=ajout-role" class="list-group-item">Ajout</a>
-                    <a href="index.php?action=list-role"class="list-group-item">Liste roles</a> 
-                </div>
-                 <div class="list-group">
-                    <a href="index.php" class="list-group-item active">
-                        Equipes
-                    </a>
-                    <a href="index.php?action=ajout-teams" class="list-group-item">Ajout</a>
-                    <a href="index.php?action=list-teams"class="list-group-item">Liste equipe</a> 
-                </div>
-            </div>
-            
-            <div class="col-sm-10 col-xs-10 content">
-                <div class="row-fluid">
-                    <?php
-                    $router = new Router();
-                    if (isset($_GET["action"])) {
-                        $action = $_GET["action"];
-
-                        include_once($router->includeTemplate($action));
-                    } else {
-                        include_once($router->includeTemplate('bienvenue'));
+                $.urlParam = function (name, url) {
+                    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(url);
+                    if (results === null) {
+                        return null;
                     }
-                    ?>
-                </div>
-            </div>
+                    else {
+                        return results[1] || 0;
+                    }
+                };
 
-        </div>
+                var ajaxMenuRequest = function (data) {
+                    $(".content-hidden").hide();
+                    NProgress.start();
+
+                    $.ajax({
+                        url: "<?php echo "ajax_router.php"; ?>",
+                        data: data,
+                        type: "get",
+                        dataType: "html",
+                        success: function (view) {
+                            $(".content-hidden").text("").html(view).fadeIn();
+                            NProgress.done();
+                        }
+                    });
+                };
+                $(".menu-ajax").click(function (e) {
+                    e.preventDefault();
+                    var data = {action: $.urlParam("action", $(this).attr('href'))};
+                    ajaxMenuRequest(data);
+
+                });
 
 
+            });
 
-
+        </script>
     </body>
 </html>

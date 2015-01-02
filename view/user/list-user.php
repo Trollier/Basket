@@ -1,9 +1,17 @@
 <?php
-
 $ioc = IOC::getInstance();
-$userController= $ioc["userController"];
+$userController = $ioc["userController"];
 $users = $userController->listAll();
 ?>
+<div class="container-fluid">
+    <p class="pull-right">
+        
+            <a class ="btn btn-warning btn-lg " href="index.php?action=ajout-user" >Ajout</a>
+
+    </p>
+
+
+</div>
 <div class="table-responsive">
     <table class="table table-bordered table-striped">
         <tr>

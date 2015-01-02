@@ -17,6 +17,7 @@ require_once '/domain/DaysOfWeek.php';
 require_once '/domain/StaffsRoleTypes.php';
 require_once '/domain/Role.php';
 require_once '/domain/Teams.php';
+require_once '/domain/TeamsRanking.php';
 
 //model
 require_once "/model/UserManager.php";
@@ -28,6 +29,7 @@ require_once '/model/DaysOfWeekManager.php';
 require_once '/model/StaffsRoleTypesManager.php';
 require_once '/model/RoleManager.php';
 require_once '/model/TeamsManager.php';
+require_once '/model/TeamsRankingManager.php';
 
 //controller
 require_once "/controller/UserController.php";
@@ -39,6 +41,7 @@ require_once '/controller/DaysOfWeekController.php';
 require_once '/controller/StaffsRoleTypeController.php';
 require_once '/controller/RoleController.php';
 require_once '/controller/TeamsController.php';
+require_once '/controller/TeamsRankingController.php';
 
 
 

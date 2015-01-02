@@ -4,13 +4,22 @@ $ioc = IOC::getInstance();
 $staffController= $ioc["staffController"];
 $staffs = $staffController->listAll();
 ?>
+<!-- Bouton ajouter -->
+<div class="container-fluid">
+    <p class="pull-right">
+        
+                    <a class ="btn btn-warning btn-lg " href="index.php?action=ajout-staff" >Ajout</a>
+
+    </p>
+
+</div>
+
 <div class="table-responsive">
     <table class="table table-bordered table-striped">
         <tr>
             <th>IdStaff</th>
             <th>label</th>
             <th>ordre</th>
-            <th>ShowInMenu</th>            
             <th>ShowInMenu</th>            
             <th>Editer</th>
             <th>Supprimer</th>

@@ -4,6 +4,14 @@ $ioc = IOC::getInstance();
 $roleManager = $ioc["roleManager"];
 $roles = $roleManager->listAllRole();
 ?>
+<div class="container-fluid">
+    <p class="pull-right">
+
+                    <a href="index.php?action=ajout-role" class ="btn btn-warning btn-lg ">Ajout</a>
+
+    </p>
+
+</div>
 <div class="table-responsive">
     <table class="table table-bordered table-striped">
         <tr>

@@ -41,8 +41,8 @@ class TeamsManager {
     }
 
     public function listAll() {
-        $reqSelectAllTeams = $this->_db->prepare("select idTeam, label, ageMin, ageMax, godFather, ordre, active from teams");
-        $reqSelectAllPlayersWithATeam = $this->_db->prepare("select name, firstname, teams.godFather from players,teams where players.idPlayer = teams.godFather");
+        $reqSelectAllTeams = $this->_db->prepare("select idTeam, label, ageMin, ageMax, godFather, ordre, active from teams order by idTeam asc");
+        $reqSelectAllPlayersWithATeam = $this->_db->prepare("select name, firstname, teams.godFather from players,teams where players.idPlayer = teams.godFather order by idTeam asc");
 
         try {
             $reqSelectAllTeams->execute();

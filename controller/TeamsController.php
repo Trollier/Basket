@@ -13,8 +13,6 @@ class TeamsController {
 
             $team = new Teams();
             $team->setAgeMax($_POST['ageMax']);
-
-            $team->setAgeMax($_POST['ageMax']);
             $team->setAgeMin($_POST['ageMin']);
             $team->setGodFather($_POST['godFather']);
             $team->setLabel($_POST['label']);
