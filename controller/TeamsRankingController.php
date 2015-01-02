@@ -64,7 +64,6 @@ class TeamsRankingController {
  
                 return "/view/teamsRanking/editer-teamsRanking.php";
             }
-            var_dump($teamsRanking);
             $this->teamsRankingManager->update($teamsRanking);
 
 

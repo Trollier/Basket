@@ -6,6 +6,8 @@
 if(isset($_SESSION['flash'])){
     echo "<div class='alert alert-info'>".$_SESSION['flash']."</div>";
     unset($_SESSION["flash"]);
+    
+
 }else{
     
 echo '<div class="alert alert-success">';

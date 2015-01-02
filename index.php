@@ -56,6 +56,9 @@ session_start();
                                 <a class ="menu-ajax" href="index.php?action=list-teamsRanking">Classement</a>
                             </li>
 
+
+
+
                         </ul>
 
                     </div><!--/.nav-collapse -->
@@ -77,7 +80,7 @@ session_start();
                 <div class="container-fluid ">
 
                     <div class="content-hidden">
-                       <?php include_once("ajax_router.php");?>
+                        <?php include_once("ajax_router.php"); ?>
                     </div>
 
                 </div>
@@ -91,39 +94,15 @@ session_start();
         <script type="text/javascript" src="js/jquery.js"></script>
         <script type="text/javascript" src="js/bootstrap.js"></script>
         <script type="text/javascript" src="js/nprogress.js"></script>
+        <script type="text/javascript" src="js/core.js"></script>
         <script>
             $(document).ready(function () {
-                NProgress.configure({ease: 'ease', speed: 500, showSpinner: false });
+                NProgress.configure({ease: 'ease', speed: 500, showSpinner: false});
 
-                $.urlParam = function (name, url) {
-                    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(url);
-                    if (results === null) {
-                        return null;
-                    }
-                    else {
-                        return results[1] || 0;
-                    }
-                };
-
-                var ajaxMenuRequest = function (data) {
-                    $(".content-hidden").hide();
-                    NProgress.start();
-
-                    $.ajax({
-                        url: "<?php echo "ajax_router.php"; ?>",
-                        data: data,
-                        type: "get",
-                        dataType: "html",
-                        success: function (view) {
-                            $(".content-hidden").text("").html(view).fadeIn();
-                            NProgress.done();
-                        }
-                    });
-                };
                 $(".menu-ajax").click(function (e) {
                     e.preventDefault();
                     var data = {action: $.urlParam("action", $(this).attr('href'))};
-                    ajaxMenuRequest(data);
+                    $.ajaxMenuRequest(data);
 
                 });
 

@@ -69,7 +69,6 @@ class TeamsRankingManager {
     }
 
     public function update(TeamsRanking $teamsRanking) {
-        //var_dump($teamsRanking);die();
         $points = ($teamsRanking->getWin()*3)+($teamsRanking->getDeuce());
         $req = $this->_db->prepare('UPDATE `teamsranking` SET `idTeam`=:idTeam,`myYear`=:myYear,`name`=:name,'
                 . '`played`=:played,`win`=:win,`lost`=:lost,`deuce`=:deuce,'
