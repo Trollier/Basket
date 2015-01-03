@@ -19,7 +19,7 @@ require_once '/domain/Role.php';
 require_once '/domain/Teams.php';
 require_once '/domain/TeamsRanking.php';
 require_once '/domain/TeamsCoach.php';
-
+require_once '/domain/TeamsDelegue.php';
 //model
 require_once "/model/UserManager.php";
 require_once '/model/PlayerManager.php';
@@ -32,7 +32,7 @@ require_once '/model/RoleManager.php';
 require_once '/model/TeamsManager.php';
 require_once '/model/TeamsRankingManager.php';
 require_once '/model/TeamsCoachManager.php';
-
+require_once '/model/TeamsDelegueManager.php';
 //controller
 require_once "/controller/UserController.php";
 require_once '/controller/PlayerController.php';
@@ -45,6 +45,7 @@ require_once '/controller/RoleController.php';
 require_once '/controller/TeamsController.php';
 require_once '/controller/TeamsRankingController.php';
 require_once '/controller/TeamsCoachController.php';
+require_once '/controller/TeamsDelegueController.php';
 
 
 

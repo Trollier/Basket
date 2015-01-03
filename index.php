@@ -58,8 +58,9 @@ session_start();
                             <li>
                                 <a class ="menu-ajax" href="index.php?action=list-teamsCoach">TeamsCoach</a>
                             </li>
-
-
+                            <li>
+                                <a class ="menu-ajax" href="index.php?action=list-teamsDelegue">TeamsDelegue</a>
+                            </li>    
 
                         </ul>
 

@@ -39,6 +39,9 @@ class IOC implements ArrayAccess {
 
         $this->container["teamsCoachManager"] = new TeamsCoachManager($this->container["userManager"], $this->container["teamsManager"]);
         $this->container["teamsCoachController"] = new TeamsCoachController($this->container["teamsCoachManager"]);
+        
+        $this->container["teamsDelegueManager"] = new TeamsDelegueManager($this->container["userManager"], $this->container["teamsManager"]);
+        $this->container["teamsDelegueController"] = new TeamsDelegueController($this->container["teamsDelegueManager"]);
     }
 
     public static function getInstance() {
