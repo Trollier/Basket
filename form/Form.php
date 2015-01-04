@@ -26,7 +26,9 @@ class Form {
     public function date($id, $label = null, $value = null) {
         return $this->input("date", $id, $label, $value);
     }
-
+    public function time($id, $label = null, $value = null) {
+           return $this->input("time", $id, $label, $value);
+    }
     public function number($id, $label = null, $value = null) {
         return $this->input("number", $id, $label, $value);
     }

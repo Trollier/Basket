@@ -64,6 +64,9 @@ session_start();
                             
                             <li>
                                 <a class ="menu-ajax" href="index.php?action=list-teamsPlayer">TeamsPlayer</a>
+                            </li> 
+                            <li>
+                                <a class ="menu-ajax" href="index.php?action=list-teamsGame">TeamsGames</a>
                             </li>    
                         </ul>
 

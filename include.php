@@ -21,6 +21,8 @@ require_once '/domain/TeamsRanking.php';
 require_once '/domain/TeamsCoach.php';
 require_once '/domain/TeamsDelegue.php';
 require_once '/domain/TeamsPlayers.php';
+require_once '/domain/TeamsGames.php';
+
 //model
 require_once "/model/UserManager.php";
 require_once '/model/PlayerManager.php';
@@ -35,6 +37,8 @@ require_once '/model/TeamsRankingManager.php';
 require_once '/model/TeamsCoachManager.php';
 require_once '/model/TeamsDelegueManager.php';
 require_once '/model/TeamsPlayersManager.php';
+require_once '/model/TeamsGamesManager.php';
+
 //controller
 require_once "/controller/UserController.php";
 require_once '/controller/PlayerController.php';
@@ -49,6 +53,7 @@ require_once '/controller/TeamsRankingController.php';
 require_once '/controller/TeamsCoachController.php';
 require_once '/controller/TeamsDelegueController.php';
 require_once '/controller/TeamsPlayersController.php';
+require_once '/controller/TeamsGamesController.php';
 
 
 

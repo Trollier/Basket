@@ -16,6 +16,7 @@ class Router {
     private $teamsCoachController;
     private $teamsDelegueController;
     private $teamsPlayerController;
+    private $teamsGamesController;
 
     public function __construct() {
         $this->IOC = IOC::getInstance();
@@ -32,6 +33,7 @@ class Router {
         $this->teamsCoachController = $this->IOC["teamsCoachController"];
         $this->teamsDelegueController = $this->IOC["teamsDelegueController"];
         $this->teamsPlayerController = $this->IOC["teamsPlayerController"];
+        $this->teamsGamesController = $this->IOC["teamsGamesController"];
     }
 
     public function includeTemplate($action) {
@@ -108,6 +110,12 @@ class Router {
             case "list-teamsPlayer": return $this->teamsPlayerController->listTeamsPlayer();
             case "delete-teamsPlayer": return $this->teamsPlayerController->deleteTeamsPlayer($id);
             case "edit-teamsPlayer": return $this->teamsPlayerController->editTeamsPlayer();
+               
+            case "ajout-teamsGame": return $this->teamsGamesController->addTeamsGame();
+            case "list-teamsGame": return $this->teamsGamesController->listTeamsGame();
+            case "delete-teamsGame": return $this->teamsGamesController->deleteTeamsGame($id);
+            case "edit-teamsGame": return $this->teamsGamesController->editTeamsGame();
+                
                 
             default: return '/view/bienvenue.php';
         }
