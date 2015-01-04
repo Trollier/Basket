@@ -1,9 +1,9 @@
 <?php
 
 $ioc = IOC::getInstance();
-$teamsGameManager = $ioc["teamsGamesManager"];
-$teams = $teamsGameManager->listAllTeams();
-$daysOfWeeks = $teamsGameManager->listAllDaysOfWeek();
+$teamsTrainingManager = $ioc["teamsGamesManager"];
+$teams = $teamsTrainingManager->listAllTeams();
+$daysOfWeeks = $teamsTrainingManager->listAllDaysOfWeek();
 
 $selectTeams = array();
 $selectDaysOfWeek = array();
@@ -15,7 +15,7 @@ foreach ($teams as $team) {
     $selectTeams[$team->getIdTeam()] = $team->getLabel();
 }
 
-$teamsGame = $teamsGameManager->get($_GET["id"]);
+$teamsGame = $teamsTrainingManager->get($_GET["id"]);
 
 if (isset($_SESSION["error"])) {
     echo "<div class='alert alert-danger'>" . $_SESSION['error'] . "</div>";

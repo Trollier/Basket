@@ -1,8 +1,8 @@
 <?php
 $ioc = IOC::getInstance();
 
-$teamsGameManager = $ioc["teamsGamesManager"];
-$teamsGames = $teamsGameManager->listAll();
+$teamsTrainingManager = $ioc["teamsGamesManager"];
+$teamsGames = $teamsTrainingManager->listAll();
 ?>
 <div class="container-fluid">
     <p class="pull-right">
