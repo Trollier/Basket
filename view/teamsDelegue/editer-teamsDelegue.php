@@ -1,9 +1,9 @@
 <?php
 
 $ioc = IOC::getInstance();
-$teamsDelegueManager = $ioc["teamsDelegueManager"];
-$teams = $teamsDelegueManager->listAllTeams();
-$users = $teamsDelegueManager->listAllUsers();
+$teamsPlayerManager = $ioc["teamsDelegueManager"];
+$teams = $teamsPlayerManager->listAllTeams();
+$users = $teamsPlayerManager->listAllUsers();
 
 
 $selectTeams = array();
@@ -16,7 +16,7 @@ foreach ($teams as $team) {
     $selectTeams[$team->getIdTeam()] = $team->getLabel();
 }
 
-$teamsDelegue = $teamsDelegueManager->get($_GET["id"]);
+$teamsDelegue = $teamsPlayerManager->get($_GET["id"]);
 if (isset($_SESSION["error"])) {
     echo "<div class='alert alert-danger'>" . $_SESSION['error'] . "</div>";
     unset($_SESSION["error"]);

@@ -1,8 +1,8 @@
 <?php
 $ioc = IOC::getInstance();
-$teamsDelegueManager = $ioc["teamsDelegueManager"];
-$teams = $teamsDelegueManager->listAllTeams();
-$users = $teamsDelegueManager->listAllUsers();
+$teamsPlayerManager = $ioc["teamsDelegueManager"];
+$teams = $teamsPlayerManager->listAllTeams();
+$users = $teamsPlayerManager->listAllUsers();
 
 
 $selectTeams = array();

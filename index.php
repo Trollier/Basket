@@ -61,7 +61,10 @@ session_start();
                             <li>
                                 <a class ="menu-ajax" href="index.php?action=list-teamsDelegue">TeamsDelegue</a>
                             </li>    
-
+                            
+                            <li>
+                                <a class ="menu-ajax" href="index.php?action=list-teamsPlayer">TeamsPlayer</a>
+                            </li>    
                         </ul>
 
                     </div><!--/.nav-collapse -->
@@ -70,7 +73,7 @@ session_start();
             <div class="row-fluid">
                 <div class="container-fluid">
                     <div class="jumbotron">
-                        <h1>Projet PHP - Brahim Boukobba<small>&nbsp;(fortement aidé par Nordine Bittich)</small></h1>
+                        <h1>Projet PHP - Brahim Boukobba</h1>
 
                     </div>
                 </div>
