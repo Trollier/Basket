@@ -17,8 +17,13 @@ class PlayerController {
             $player->setFirstname($_POST['firstname']);
             $player->setBirthdate($_POST['date']);
             $player->setEmail($_POST['mail']);
-          
-          
+            try {
+                $this->validate($player);
+            } catch (Exception $e) {
+                $_SESSION["error"] = $e->getMessage();
+                return '/view/player/ajout-player-form.php';
+            }
+
 
             $this->playerManager->createPlayer($player);
             $_SESSION["flash"] = "Joueur" . $player->getName() . " ajouté avec succès";
@@ -49,7 +54,13 @@ class PlayerController {
             $player->setFirstname($_POST['firstname']);
             $player->setBirthdate($_POST['date']);
             $player->setEmail($_POST['mail']);
-
+            try {
+                $this->validate($player);
+            } catch (Exception $e) {
+                $_SESSION["error"] = $e->getMessage();
+                $_GET["idPlayer"] = $player->getIdPlayer();
+                return "/view/player/editer-player.php";
+            }
 
             $this->playerManager->updatePlayer($player);
 
@@ -96,26 +107,15 @@ class PlayerController {
         return $var;
     }
 
-    public function validate($user) {
-        
-        if (strlen($user->getName()) < 2 || strlen($user->getName()) > 20) {
-            
-            throw new ValidationException("La taille du nom est incorrect");
+    public function validate(Player $player) {
+        $date = date_parse($player->getBirthdate());
+        $now =  new \DateTime();
+        if (!($date["error_count"] == 0 && checkdate($date["month"], $date["day"], $date["year"]))) {
+            throw new ValidationException("Date de naissance invalide!");
         }
-        if (strlen($user->getFirstname()) < 2 || strlen($user->getFirstname()) > 20) {
-            throw new ValidationException("La taille du prénom est incorrect");
-        }
-        if (!filter_var($user->getMail(), FILTER_VALIDATE_EMAIL)) {
-            throw new ValidationException("L'email est incorrect.");
-        }
-        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $user->getName())) {
-            throw new ValidationException("Caractères incorrect dans le nom");
-        }
-        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $user->getFirstname())) {
-            throw new ValidationException("Caractères incorrect dans le prénom");
-        }
-        if ($this->userManager->getByMail($user->getMail())) {
-            throw new ValidationException("L'email existe déjà!");
+        if ($date["year"] < 1900 || $date["year"] > date_parse($now->format('Y-m-d H:i:s'))["year"]) {
+            throw new ValidationException("Date de naissance incorrect! Année min: 1900, année max: "
+            . date_parse($now->format('Y-m-d H:i:s'))["year"]);
         }
     }
 

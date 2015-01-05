@@ -26,7 +26,7 @@ session_start();
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
                             <li >                                       
-                                <a  class ="menu-ajax" href="index.php?action=list-user" >Utilisateur</a> 
+                                <a  class ="menu-ajax" href="index.php?action=list-user" >User</a> 
                             </li>
                             <li>
                                 <a class ="menu-ajax" href="index.php?action=list-player" >Player</a>
@@ -108,20 +108,6 @@ session_start();
         <script type="text/javascript" src="js/bootstrap.js"></script>
         <script type="text/javascript" src="js/nprogress.js"></script>
         <script type="text/javascript" src="js/core.js"></script>
-        <script>
-            $(document).ready(function () {
-                NProgress.configure({ease: 'ease', speed: 500, showSpinner: false});
-
-                $(".menu-ajax").click(function (e) {
-                    e.preventDefault();
-                    var data = {action: $.urlParam("action", $(this).attr('href'))};
-                    $.ajaxMenuRequest(data);
-
-                });
-
-
-            });
-
-        </script>
+       
     </body>
 </html>
