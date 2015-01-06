@@ -1,17 +1,21 @@
 <?php
-
 $ioc = IOC::getInstance();
-$playerController= $ioc["playerController"];
+$playerController = $ioc["playerController"];
 $players = $playerController->listAll();
+$loginManager = $ioc["loginManager"];
 ?>
-<div class="container-fluid">
-    <p class="pull-right">
-        
-                    <a class ="btn btn-warning btn-lg "  href="index.php?action=ajout-player" >Ajout</a>
+<?php if ($loginManager->isLoggedIn()): ?>
 
-    </p>
+    <div class="container-fluid">
+        <p class="pull-right">
 
-</div>
+            <a class ="btn btn-warning btn-lg "  href="index.php?action=ajout-player" >Ajout</a>
+
+        </p>
+
+    </div>
+<?php endif; ?>
+
 <div class="table-responsive">
     <table class="table table-bordered table-striped">
         <tr>
@@ -20,9 +24,13 @@ $players = $playerController->listAll();
             <th>Prenom</th>
             <th>Email</th>
             <th>date Naissance</th>
-            <th>Editer</th>
-            <th>Supprimer</th>
-            <th>Activer/Désactiver</th>
+            <?php if ($loginManager->isLoggedIn()): ?>
+
+                <th>Editer</th>
+                <th>Supprimer</th>
+                <th>Activer/Désactiver</th>
+            <?php endif; ?>
+
         </tr>
 
         <?php
@@ -34,13 +42,15 @@ $players = $playerController->listAll();
             echo "<td>" . $player->getFirstname() . "</td>";
             echo "<td>" . $player->getEmail() . "</td>";
             echo "<td>" . $player->getBirthdate() . "</td>";
+            if ($loginManager->isLoggedIn()) {
 
-            echo '<td><a href="index.php?id=' . $player->getIdPlayer() . '&action=edit-player" class="btn btn-success btn-xs">Editer</a></td>';
-            echo '<td><a href="index.php?id=' . $player->getIdPlayer() . '&action=delete-player" class="btn btn-danger btn-xs">Supprimer</a></td>';
-            if ($player->getActive() == 0) {
-                echo '<td ><a href="index.php?id=' . $player->getIdPlayer() . '&action=activatePlayer&isActived=1" class="btn btn-primary btn-xs">Desactiver</a></td>';
-            } else {
-                echo '<td><a href="index.php?id=' . $player->getIdPlayer() . '&action=activatePlayer&isActived=0" class="btn btn-info btn-xs">Activer</a></td>';
+                echo '<td><a href="index.php?id=' . $player->getIdPlayer() . '&action=edit-player" class="btn btn-success btn-xs">Editer</a></td>';
+                echo '<td><a href="index.php?id=' . $player->getIdPlayer() . '&action=delete-player" class="btn btn-danger btn-xs">Supprimer</a></td>';
+                if ($player->getActive() == 0) {
+                    echo '<td ><a href="index.php?id=' . $player->getIdPlayer() . '&action=activatePlayer&isActived=1" class="btn btn-primary btn-xs">Desactiver</a></td>';
+                } else {
+                    echo '<td><a href="index.php?id=' . $player->getIdPlayer() . '&action=activatePlayer&isActived=0" class="btn btn-info btn-xs">Activer</a></td>';
+                }
             }
             echo "</tr>";
         }

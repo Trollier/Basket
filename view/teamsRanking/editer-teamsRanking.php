@@ -1,4 +1,6 @@
 <?php
+include_once("/view/login/security.php");
+
 $ioc = IOC::getInstance();
 $teamsCoachManager = $ioc["teamsRankingManager"];
 $teams= $teamsCoachManager->listAllTeams();

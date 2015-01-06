@@ -3,13 +3,19 @@ $ioc = IOC::getInstance();
 
 $teamsCalendarManager = $ioc["teamsCalendarManager"];
 $teamsCalendars = $teamsCalendarManager->listAll();
+$loginManager = $ioc["loginManager"];
 ?>
-<div class="container-fluid">
-    <p class="pull-right">
-        <a href="index.php?action=ajout-teamsCalendar" class ="btn btn-warning btn-lg ">Ajout</a>
-    </p>
+<?php if ($loginManager->isLoggedIn()): ?>
 
-</div>
+    <div class="container-fluid">
+        <p class="pull-right">
+            <a href="index.php?action=ajout-teamsCalendar" class ="btn btn-warning btn-lg ">Ajout</a>
+        </p>
+
+    </div>
+<?php endif; ?>
+
+
 <div class="table-responsive">
     <table class="table table-bordered table-striped">
         <tr>
@@ -27,8 +33,12 @@ $teamsCalendars = $teamsCalendarManager->listAll();
             <th>YearTeam</th>
             <th>Modified</th>
             <th>TypeMatch</th>
-            <th>Supprimer</th>
-            <th>Editer</th>
+            <?php if ($loginManager->isLoggedIn()): ?>
+
+                <th>Supprimer</th>
+                <th>Editer</th>
+            <?php endif; ?>
+
         </tr>
 
 
@@ -50,8 +60,11 @@ $teamsCalendars = $teamsCalendarManager->listAll();
             echo "<td>" . $teamsCalendar->getYearTeam() . "</td>";
             echo "<td>" . $teamsCalendar->getModified() . "</td>";
             echo "<td>" . $teamsCalendar->getTypeMatch() . "</td>";
+                        if ($loginManager->isLoggedIn()) {
+
             echo '<td><a href="index.php?id=' . $teamsCalendar->getIdCalendar() . '&action=delete-teamsCalendar" class="btn btn-danger btn-xs">Supprimer</a></td>';
             echo '<td><a href="index.php?id=' . $teamsCalendar->getIdCalendar() . '&action=edit-teamsCalendar" class="btn btn-success btn-xs">Editer</a></td>';
+                        }
             echo "</tr>";
         }
         ?>

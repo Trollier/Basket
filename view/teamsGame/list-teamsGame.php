@@ -3,13 +3,18 @@ $ioc = IOC::getInstance();
 
 $teamsTrainingManager = $ioc["teamsGamesManager"];
 $teamsGames = $teamsTrainingManager->listAll();
+$loginManager = $ioc["loginManager"];
 ?>
-<div class="container-fluid">
-    <p class="pull-right">
-        <a href="index.php?action=ajout-teamsGame" class ="btn btn-warning btn-lg ">Ajout</a>
-    </p>
+<?php if ($loginManager->isLoggedIn()): ?>
 
-</div>
+    <div class="container-fluid">
+        <p class="pull-right">
+            <a href="index.php?action=ajout-teamsGame" class ="btn btn-warning btn-lg ">Ajout</a>
+        </p>
+
+    </div>
+<?php endif; ?>
+
 <div class="table-responsive">
     <table class="table table-bordered table-striped">
         <tr>
@@ -21,17 +26,17 @@ $teamsGames = $teamsTrainingManager->listAll();
             <th>gameTime</th>
             <th>label</th>
             <th>label Team</th>
-            <th>Supprimer</th>
-            <th>Editer</th>
+            <?php if ($loginManager->isLoggedIn()): ?>
+
+                <th>Supprimer</th>
+                <th>Editer</th>
+            <?php endif; ?>
+
         </tr>
-
-
-
-
 
         <?php
         foreach ($teamsGames as $teamsGame) {
-         
+
             echo '<tr >';
             echo "<td>" . $teamsGame->getIdTeamGame() . "</td>";
             echo "<td>" . $teamsGame->getIdTeam() . "</td>";
@@ -40,8 +45,11 @@ $teamsGames = $teamsTrainingManager->listAll();
             echo "<td>" . $teamsGame->getGameTime() . "</td>";
             echo "<td>" . $teamsGame->getLabelDay() . "</td>";
             echo "<td>" . $teamsGame->getLabel() . "</td>";
-            echo '<td><a href="index.php?id=' . $teamsGame->getIdTeamGame() . '&action=delete-teamsGame" class="btn btn-danger btn-xs">Supprimer</a></td>';
-            echo '<td><a href="index.php?id=' . $teamsGame->getIdTeamGame() . '&action=edit-teamsGame" class="btn btn-success btn-xs">Editer</a></td>';
+            if ($loginManager->isLoggedIn()) {
+
+                echo '<td><a href="index.php?id=' . $teamsGame->getIdTeamGame() . '&action=delete-teamsGame" class="btn btn-danger btn-xs">Supprimer</a></td>';
+                echo '<td><a href="index.php?id=' . $teamsGame->getIdTeamGame() . '&action=edit-teamsGame" class="btn btn-success btn-xs">Editer</a></td>';
+            }
             echo "</tr>";
         }
         ?>

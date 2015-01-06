@@ -1,4 +1,5 @@
 <?php
+
 class LoginManager {
 
     private $userManager;
@@ -8,10 +9,10 @@ class LoginManager {
     }
 
     public function login($mail, $password) {
-        
+
         $user = $this->userManager->getByMail($mail);
         if ($user->getPassword() === substr(md5($password), 0, 20)) {
-            setcookie ("user", $user->getName(),time()+60*60*24*30);
+            setcookie("user", $user->getName(), time() + 60 * 60 * 24 * 30);
             return $user;
         } else {
             return false;
@@ -24,6 +25,8 @@ class LoginManager {
 
     public function logout() {
         unset($_COOKIE["user"]);
+        header("Location: index.php");
+        die();
     }
 
     public function getUser() {

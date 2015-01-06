@@ -57,7 +57,6 @@ class IOC implements ArrayAccess {
 
 
         $this->container["loginManager"] = new LoginManager($this->container["userManager"]);
-        $this->container["loginController"] = new LoginController($this->container["loginManager"]);
     }
 
     public static function getInstance() {

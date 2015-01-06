@@ -1,25 +1,32 @@
 <?php
-
 $ioc = IOC::getInstance();
-$typesMatchController= $ioc["typesMatchController"];
+$typesMatchController = $ioc["typesMatchController"];
 $typeMatches = $typesMatchController->listAll();
-
+$loginManager = $ioc["loginManager"];
 ?>
-<div class="container-fluid">
-    <p class="pull-right">
+<?php if ($loginManager->isLoggedIn()): ?>
 
-                    <a href="index.php?action=ajout-typeMatch" class ="btn btn-warning btn-lg ">Ajout</a>
+    <div class="container-fluid">
+        <p class="pull-right">
 
-    </p>
+            <a href="index.php?action=ajout-typeMatch" class ="btn btn-warning btn-lg ">Ajout</a>
 
-</div>
+        </p>
+
+    </div>
+<?php endif; ?>
+
 <div class="table-responsive">
     <table class="table table-bordered table-striped">
         <tr>
             <th>IdTypeMatch</th>
-            <th>TypeMatch</th>          
-            <th>Editer</th>
-            <th>Supprimer</th>
+            <th>TypeMatch</th>  
+            <?php if ($loginManager->isLoggedIn()): ?>
+
+                <th>Editer</th>
+                <th>Supprimer</th>
+            <?php endif; ?>
+
         </tr>
 
         <?php
@@ -28,8 +35,11 @@ $typeMatches = $typesMatchController->listAll();
             echo '<tr >';
             echo "<td>" . $typeMatch->getIdTypeMatch() . "</td>";
             echo "<td>" . $typeMatch->getTypeMatch() . "</td>";
-            echo '<td><a href="index.php?id=' . $typeMatch->getIdTypeMatch() . '&action=edit-typeMatch" class="btn btn-success btn-xs">Editer</a></td>';
-            echo '<td><a href="index.php?id=' . $typeMatch->getIdTypeMatch() . '&action=delete-typeMatch" class="btn btn-danger btn-xs">Supprimer</a></td>';
+            if ($loginManager->isLoggedIn()) {
+
+                echo '<td><a href="index.php?id=' . $typeMatch->getIdTypeMatch() . '&action=edit-typeMatch" class="btn btn-success btn-xs">Editer</a></td>';
+                echo '<td><a href="index.php?id=' . $typeMatch->getIdTypeMatch() . '&action=delete-typeMatch" class="btn btn-danger btn-xs">Supprimer</a></td>';
+            }
             echo "</tr>";
         }
         ?>

@@ -3,20 +3,24 @@ $ioc = IOC::getInstance();
 
 $teamsManager = $ioc["teamsManager"];
 $teams = $teamsManager->listAll();
-
+$loginManager = $ioc["loginManager"];
 ?>
-<div class="container-fluid">
-    <p class="pull-right">
-                    <a href="index.php?action=ajout-teams" class ="btn btn-warning btn-lg ">Ajout</a>
+<?php if ($loginManager->isLoggedIn()): ?>
+
+    <div class="container-fluid">
+        <p class="pull-right">
+            <a href="index.php?action=ajout-teams" class ="btn btn-warning btn-lg ">Ajout</a>
 
 
-    </p>
+        </p>
 
-</div>
+    </div>
+<?php endif; ?>
+
 <div class="table-responsive">
     <table class="table table-bordered table-striped">
         <tr>
-            
+
             <th>IdTeam</th>
             <th>label</th> 
             <th>active</th>
@@ -24,16 +28,18 @@ $teams = $teamsManager->listAll();
             <th>ageMin</th>
             <th>GodFather</th>             
             <th>ordre</th>
-             <th>name</th>
-              <th>firstname</th>
-           <th>Supprimer</th>
-            <th>Editer</th>
-            <th>activer</th>
+        
+            <?php if ($loginManager->isLoggedIn()): ?>
+
+                <th>Supprimer</th>
+                <th>Editer</th>
+
+                <th>activer</th>
+            <?php endif; ?>
         </tr>
 
         <?php
         foreach ($teams as $teamsCoach) {
-               
             echo '<tr >';
             echo "<td>" . $teamsCoach->getIdTeam() . "</td>";
             echo "<td>" . $teamsCoach->getLabel() . "</td>";
@@ -42,14 +48,15 @@ $teams = $teamsManager->listAll();
             echo "<td>" . $teamsCoach->getAgeMin() . "</td>";
             echo "<td>" . $teamsCoach->getGodFather() . "</td>";
             echo "<td>" . $teamsCoach->getOrdre() . "</td>";
-            echo "<td>" . $teamsCoach->getName() . "</td>";
-            echo "<td>" . $teamsCoach->getFirstname() . "</td>";
-            echo '<td><a href="index.php?id=' . $teamsCoach->getIdTeam() . '&action=delete-teams" class="btn btn-danger btn-xs">Supprimer</a></td>';
-            echo '<td><a href="index.php?id=' . $teamsCoach->getIdTeam()  . '&action=edit-teams" class="btn btn-success btn-xs">Editer</a></td>';
-             if ($teamsCoach->getActive() == 0) {
-                echo '<td ><a href="index.php?id=' . $teamsCoach->getIdTeam() . '&action=activate-teams&isActived=1" class="btn btn-primary btn-xs">Desactiver</a></td>';
-            } else {
-                echo '<td><a href="index.php?id=' . $teamsCoach->getIdTeam() . '&action=activate-teams&isActived=0" class="btn btn-info btn-xs">Activer</a></td>';
+  
+            if ($loginManager->isLoggedIn()) {
+                echo '<td><a href="index.php?id=' . $teamsCoach->getIdTeam() . '&action=delete-teams" class="btn btn-danger btn-xs">Supprimer</a></td>';
+                echo '<td><a href="index.php?id=' . $teamsCoach->getIdTeam() . '&action=edit-teams" class="btn btn-success btn-xs">Editer</a></td>';
+                if ($teamsCoach->getActive() == 0) {
+                    echo '<td ><a href="index.php?id=' . $teamsCoach->getIdTeam() . '&action=activate-teams&isActived=1" class="btn btn-primary btn-xs">Desactiver</a></td>';
+                } else {
+                    echo '<td><a href="index.php?id=' . $teamsCoach->getIdTeam() . '&action=activate-teams&isActived=0" class="btn btn-info btn-xs">Activer</a></td>';
+                }
             }
             echo "</tr>";
         }

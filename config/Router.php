@@ -19,7 +19,6 @@ class Router {
     private $teamsGamesController;
     private $teamsTrainingController;
     private $teamsCalendarController;
-    private $loginController;
 
     public function __construct() {
         $this->IOC = IOC::getInstance();
@@ -39,7 +38,6 @@ class Router {
         $this->teamsGamesController = $this->IOC["teamsGamesController"];
         $this->teamsTrainingController = $this->IOC["teamsTrainingController"];
         $this->teamsCalendarController = $this->IOC["teamsCalendarController"];
-        $this->loginController = $this->IOC["loginController"];
     }
 
   
@@ -50,8 +48,7 @@ class Router {
         }
 
         switch ($action) {
-            case "login": return $this->loginController->login();
-            case "logout": return $this->loginController->logout();
+            
             case "ajout-user": return $this->userController->addUser();
             case 'list-user': return $this->userController->listUser();
             case 'edit-user': return $this->userController->editUser();

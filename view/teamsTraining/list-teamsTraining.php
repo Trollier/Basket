@@ -3,13 +3,18 @@ $ioc = IOC::getInstance();
 
 $teamsTrainingManager = $ioc["teamsTrainingManager"];
 $teamsTrainings = $teamsTrainingManager->listAll();
+$loginManager = $ioc["loginManager"];
 ?>
-<div class="container-fluid">
-    <p class="pull-right">
-        <a href="index.php?action=ajout-teamsTraining" class ="btn btn-warning btn-lg ">Ajout</a>
-    </p>
+<?php if ($loginManager->isLoggedIn()): ?>
 
-</div>
+    <div class="container-fluid">
+        <p class="pull-right">
+            <a href="index.php?action=ajout-teamsTraining" class ="btn btn-warning btn-lg ">Ajout</a>
+        </p>
+
+    </div>
+<?php endif; ?>
+
 <div class="table-responsive">
     <table class="table table-bordered table-striped">
         <tr>
@@ -24,8 +29,12 @@ $teamsTrainings = $teamsTrainingManager->listAll();
             <th>room</th>
             <th>label Team</th>
             <th>labelDay</th>
-            <th>Supprimer</th>
-            <th>Editer</th>
+            <?php if ($loginManager->isLoggedIn()): ?>
+
+                <th>Supprimer</th>
+                <th>Editer</th>
+            <?php endif; ?>
+
         </tr>
 
 
@@ -44,8 +53,10 @@ $teamsTrainings = $teamsTrainingManager->listAll();
             echo "<td>" . $teamsTraining->getRoom() . "</td>";
             echo "<td>" . $teamsTraining->getLabel() . "</td>";
             echo "<td>" . $teamsTraining->getLabelDay() . "</td>";
-            echo '<td><a href="index.php?id=' . $teamsTraining->getIdTraining() . '&action=delete-teamsTraining" class="btn btn-danger btn-xs">Supprimer</a></td>';
-            echo '<td><a href="index.php?id=' . $teamsTraining->getIdTraining() . '&action=edit-teamsTraining" class="btn btn-success btn-xs">Editer</a></td>';
+            if ($loginManager->isLoggedIn()) {
+                echo '<td><a href="index.php?id=' . $teamsTraining->getIdTraining() . '&action=delete-teamsTraining" class="btn btn-danger btn-xs">Supprimer</a></td>';
+                echo '<td><a href="index.php?id=' . $teamsTraining->getIdTraining() . '&action=edit-teamsTraining" class="btn btn-success btn-xs">Editer</a></td>';
+            }
             echo "</tr>";
         }
         ?>

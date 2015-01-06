@@ -91,7 +91,7 @@ class UserController {
         return '/view/bienvenue.php';
     }
 
-    public function activateUser($id) {
+    public function activate($id) {
         $this->check($id);
 
         $user = $this->userManager->get($id);

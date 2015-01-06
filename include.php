@@ -60,6 +60,5 @@ require_once '/controller/TeamsPlayersController.php';
 require_once '/controller/TeamsGamesController.php';
 require_once '/controller/TeamsTrainingController.php';
 require_once '/controller/TeamsCalendarController.php';
-require_once '/controller/LoginController.php';
 
 

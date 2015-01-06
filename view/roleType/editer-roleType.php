@@ -1,4 +1,6 @@
 <?php
+include_once("/view/login/security.php");
+
 $ioc = IOC::getInstance();
 $roleTypeController= $ioc["roleTypeController"];
 $roleTypeId = $_GET["roleTypeId"];

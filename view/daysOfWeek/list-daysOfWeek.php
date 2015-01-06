@@ -1,36 +1,46 @@
 <?php
-
 $ioc = IOC::getInstance();
-$daysController= $ioc["daysOfWeekController"];
+$daysController = $ioc["daysOfWeekController"];
 $days = $daysController->listAll();
-
+$loginManager = $ioc["loginManager"];
 ?>
-<div class="container-fluid">
-    <p class="pull-right">
+<?php if ($loginManager->isLoggedIn()): ?>
 
-                    <a href="index.php?action=ajout-daysOfWeek" class ="btn btn-warning btn-lg ">Ajout</a>
+    <div class="container-fluid">
+        <p class="pull-right">
 
-    </p>
+            <a href="index.php?action=ajout-daysOfWeek" class ="btn btn-warning btn-lg ">Ajout</a>
 
-</div>
+        </p>
+
+    </div>
+<?php endif; ?>
+
 <div class="table-responsive">
     <table class="table table-bordered table-striped">
         <tr>
             <th>IdTypeMatch</th>
             <th>TypeMatch</th>  
-            <th>Supprimer</th>
+<?php if ($loginManager->isLoggedIn()): ?>
+
+                <th>Supprimer</th>
+<?php endif; ?>
+
         </tr>
 
-        <?php
-        foreach ($days as $day) {
+<?php
+foreach ($days as $day) {
 
-            echo '<tr >';
-            echo "<td>" . $day->getIdDay() . "</td>";
-            echo "<td>" . $day->getLabel() . "</td>";
-            echo '<td><a href="index.php?id=' . $day->getIdDay() . '&action=delete-daysOfWeek" class="btn btn-danger btn-xs">Supprimer</a></td>';
-            echo "</tr>";
-        }
-        ?>
+    echo '<tr >';
+    echo "<td>" . $day->getIdDay() . "</td>";
+    echo "<td>" . $day->getLabel() . "</td>";
+    if ($loginManager->isLoggedIn()) {
+
+        echo '<td><a href="index.php?id=' . $day->getIdDay() . '&action=delete-daysOfWeek" class="btn btn-danger btn-xs">Supprimer</a></td>';
+    }
+    echo "</tr>";
+}
+?>
     </table>
 </div>
 

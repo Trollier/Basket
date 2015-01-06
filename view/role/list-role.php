@@ -3,27 +3,35 @@ $ioc = IOC::getInstance();
 
 $roleManager = $ioc["roleManager"];
 $roles = $roleManager->listAllRole();
+$loginManager = $ioc["loginManager"];
 ?>
-<div class="container-fluid">
-    <p class="pull-right">
+<?php if ($loginManager->isLoggedIn()): ?>
 
-                    <a href="index.php?action=ajout-role" class ="btn btn-warning btn-lg ">Ajout</a>
+    <div class="container-fluid">
+        <p class="pull-right">
 
-    </p>
+            <a href="index.php?action=ajout-role" class ="btn btn-warning btn-lg ">Ajout</a>
 
-</div>
+        </p>
+
+    </div>
+<?php endif; ?>
+
 <div class="table-responsive">
     <table class="table table-bordered table-striped">
         <tr>
-            
+
             <th>idUser</th>
             <th>name</th>
             <th>firstname</th>
             <th>roleTypeId</th>
             <th>label</th>  
             <th>idRole</th>
-            <th>Supprimer</th>
-            <th>Editer</th>
+            <?php if ($loginManager->isLoggedIn()): ?>
+
+                <th>Supprimer</th>
+                <th>Editer</th>
+            <?php endif; ?>
 
         </tr>
 
@@ -37,9 +45,12 @@ $roles = $roleManager->listAllRole();
             echo "<td>" . $role->getRoleTypeId() . "</td>";
             echo "<td>" . $role->getLabel() . "</td>";
             echo "<td>" . $role->getIdRole() . "</td>";
-            echo '<td><a href="index.php?id=' . $role->getIdRole() . '&action=delete-role" class="btn btn-danger btn-xs">Supprimer</a></td>';
-            echo '<td><a href="index.php?id=' . $role->getIdRole()  . '&action=edit-role" class="btn btn-success btn-xs">Editer</a></td>';
+            if ($loginManager->isLoggedIn()) {
 
+
+                echo '<td><a href="index.php?id=' . $role->getIdRole() . '&action=delete-role" class="btn btn-danger btn-xs">Supprimer</a></td>';
+                echo '<td><a href="index.php?id=' . $role->getIdRole() . '&action=edit-role" class="btn btn-success btn-xs">Editer</a></td>';
+            }
             echo "</tr>";
         }
         ?>

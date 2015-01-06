@@ -16,8 +16,8 @@ if (isset($_SESSION['flash'])) {
 ?>
 <?php if ($loginManager->isLoggedIn()): ?>
 <div class="well">
-    <p>Bienvenue</p>
-    <a href="index.php?action=logout" class="btn btn-danger">Se déconnecter</a>
+    <p>Bienvenue <?php echo $_COOKIE["user"]?></p>
+    <a href="logout.php" class="btn btn-danger">Se déconnecter</a>
     
 </div>
 

@@ -3,13 +3,17 @@ $ioc = IOC::getInstance();
 
 $teamsCoachManager = $ioc["teamsCoachManager"];
 $teamsCoachs = $teamsCoachManager->listAll();
+$loginManager = $ioc["loginManager"];
 ?>
-<div class="container-fluid">
-    <p class="pull-right">
-        <a href="index.php?action=ajout-teamsCoach" class ="btn btn-warning btn-lg ">Ajout</a>
-    </p>
+<?php if ($loginManager->isLoggedIn()): ?>
+    <div class="container-fluid">
+        <p class="pull-right">
+            <a href="index.php?action=ajout-teamsCoach" class ="btn btn-warning btn-lg ">Ajout</a>
+        </p>
 
-</div>
+    </div>
+<?php endif; ?>
+
 <div class="table-responsive">
     <table class="table table-bordered table-striped">
         <tr>
@@ -22,8 +26,12 @@ $teamsCoachs = $teamsCoachManager->listAll();
             <th>label</th>
             <th>firstname</th>
             <th>name</th>
-            <th>Supprimer</th>
-            <th>Editer</th>
+            <?php if ($loginManager->isLoggedIn()): ?>
+
+                <th>Supprimer</th>
+                <th>Editer</th>
+            <?php endif; ?>
+
         </tr>
 
 
@@ -41,8 +49,11 @@ $teamsCoachs = $teamsCoachManager->listAll();
             echo "<td>" . $teamsCoach->getLabel() . "</td>";
             echo "<td>" . $teamsCoach->getFirstname() . "</td>";
             echo "<td>" . $teamsCoach->getName() . "</td>";
-            echo '<td><a href="index.php?id=' . $teamsCoach->getIdTeamCoach() . '&action=delete-teamsCoach" class="btn btn-danger btn-xs">Supprimer</a></td>';
-            echo '<td><a href="index.php?id=' .  $teamsCoach->getIdTeamCoach() . '&action=edit-teamsCoach" class="btn btn-success btn-xs">Editer</a></td>';
+            if ($loginManager->isLoggedIn()) {
+
+                echo '<td><a href="index.php?id=' . $teamsCoach->getIdTeamCoach() . '&action=delete-teamsCoach" class="btn btn-danger btn-xs">Supprimer</a></td>';
+                echo '<td><a href="index.php?id=' . $teamsCoach->getIdTeamCoach() . '&action=edit-teamsCoach" class="btn btn-success btn-xs">Editer</a></td>';
+            }
             echo "</tr>";
         }
         ?>

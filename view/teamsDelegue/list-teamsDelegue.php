@@ -3,13 +3,18 @@ $ioc = IOC::getInstance();
 
 $teamsPlayerManager = $ioc["teamsDelegueManager"];
 $teamsDelegues = $teamsPlayerManager->listAll();
+$loginManager = $ioc["loginManager"];
 ?>
-<div class="container-fluid">
-    <p class="pull-right">
-        <a href="index.php?action=ajout-teamsDelegue" class ="btn btn-warning btn-lg ">Ajout</a>
-    </p>
+<?php if ($loginManager->isLoggedIn()): ?>
 
-</div>
+    <div class="container-fluid">
+        <p class="pull-right">
+            <a href="index.php?action=ajout-teamsDelegue" class ="btn btn-warning btn-lg ">Ajout</a>
+        </p>
+
+    </div>
+<?php endif; ?>
+
 <div class="table-responsive">
     <table class="table table-bordered table-striped">
         <tr>
@@ -21,8 +26,12 @@ $teamsDelegues = $teamsPlayerManager->listAll();
             <th>name</th>
             <th>label</th>
             <th>firstname</th>
-            <th>Supprimer</th>
-            <th>Editer</th>
+            <?php if ($loginManager->isLoggedIn()): ?>
+
+                <th>Supprimer</th>
+                <th>Editer</th>
+            <?php endif; ?>
+
         </tr>
 
 
@@ -40,8 +49,12 @@ $teamsDelegues = $teamsPlayerManager->listAll();
             echo "<td>" . $teamsDelegue->getName() . "</td>";
             echo "<td>" . $teamsDelegue->getLabel() . "</td>";
             echo "<td>" . $teamsDelegue->getFirstname() . "</td>";
-            echo '<td><a href="index.php?id=' . $teamsDelegue->getIdTeamDelegue() . '&action=delete-teamsDelegue" class="btn btn-danger btn-xs">Supprimer</a></td>';
-            echo '<td><a href="index.php?id=' . $teamsDelegue->getIdTeamDelegue() . '&action=edit-teamsDelegue" class="btn btn-success btn-xs">Editer</a></td>';
+            if ($loginManager->isLoggedIn()) {
+
+                echo '<td><a href="index.php?id=' . $teamsDelegue->getIdTeamDelegue() . '&action=delete-teamsDelegue" class="btn btn-danger btn-xs">Supprimer</a></td>';
+                echo '<td><a href="index.php?id=' . $teamsDelegue->getIdTeamDelegue() . '&action=edit-teamsDelegue" class="btn btn-success btn-xs">Editer</a></td>';
+            }
+
             echo "</tr>";
         }
         ?>

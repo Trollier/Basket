@@ -10,7 +10,7 @@ $router = new Router();
 
 if (isset($_GET["action"])) {
     $action = $_GET["action"];
-    include_once($router->includeTemplate($action));
+    require_once ($router->includeTemplate($action));
 } else {
-    include_once($router->includeTemplate('bienvenue'));
+    require_once($router->includeTemplate('bienvenue'));
 }
