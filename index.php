@@ -1,10 +1,9 @@
-
 <?php
 session_start();
 ?>
 <html>
     <head>
-        <meta charset="utf-8" />
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="css/core.css" />
         <link rel="stylesheet" href="css/nprogress.css" />
@@ -21,7 +20,7 @@ session_start();
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="index.php">Projet PHP</a>
+                        <a class="navbar-brand" href="index.php">Projet</a>
                     </div>
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
@@ -56,21 +55,25 @@ session_start();
                                 <a class ="menu-ajax" href="index.php?action=list-teamsRanking">Classement</a>
                             </li>
                             <li>
-                                <a class ="menu-ajax" href="index.php?action=list-teamsCoach">TeamsCoach</a>
+                                <a class ="menu-ajax" href="index.php?action=list-teamsCoach">TeamCoach</a>
                             </li>
                             <li>
-                                <a class ="menu-ajax" href="index.php?action=list-teamsDelegue">TeamsDelegue</a>
+                                <a class ="menu-ajax" href="index.php?action=list-teamsDelegue">TeamDelegue</a>
                             </li>    
                             
                             <li>
-                                <a class ="menu-ajax" href="index.php?action=list-teamsPlayer">TeamsPlayer</a>
+                                <a class ="menu-ajax" href="index.php?action=list-teamsPlayer">TeamPlayer</a>
                             </li> 
                             <li>
-                                <a class ="menu-ajax" href="index.php?action=list-teamsGame">TeamsGames</a>
+                                <a class ="menu-ajax" href="index.php?action=list-teamsGame">TeamGame</a>
                             </li>   
                             
                             <li>
-                                <a class ="menu-ajax" href="index.php?action=list-teamsTraining">TeamsTraining</a>
+                                <a class ="menu-ajax" href="index.php?action=list-teamsTraining">Trainings</a>
+                            </li>    
+                            
+                             <li>
+                                <a class ="menu-ajax" href="index.php?action=list-teamsCalendar">Calendar</a>
                             </li>    
                         </ul>
 
@@ -94,6 +97,7 @@ session_start();
 
                     <div class="content-hidden">
                         <?php include_once("ajax_router.php"); ?>
+                        
                     </div>
 
                 </div>

@@ -5,8 +5,9 @@ require_once '/form/Form.php';
 require_once '/form/ValidationException.php';
 //config
 require_once "/config/connectionSingleton.php";
-require_once "/config/IOC.php";
 require_once "/config/Router.php";
+
+require_once "/config/IOC.php";
 //domain
 require_once "/domain/User.php";
 require_once '/domain/Player.php';
@@ -23,6 +24,7 @@ require_once '/domain/TeamsDelegue.php';
 require_once '/domain/TeamsPlayers.php';
 require_once '/domain/TeamsGames.php';
 require_once '/domain/TeamsTraining.php';
+require_once '/domain/TeamsCalendar.php';
 //model
 require_once "/model/UserManager.php";
 require_once '/model/PlayerManager.php';
@@ -39,7 +41,8 @@ require_once '/model/TeamsDelegueManager.php';
 require_once '/model/TeamsPlayersManager.php';
 require_once '/model/TeamsGamesManager.php';
 require_once '/model/TeamsTrainingsManager.php';
-
+require_once '/model/TeamsCalendarManager.php';
+require_once '/model/LoginManager.php';
 //controller
 require_once "/controller/UserController.php";
 require_once '/controller/PlayerController.php';
@@ -56,6 +59,7 @@ require_once '/controller/TeamsDelegueController.php';
 require_once '/controller/TeamsPlayersController.php';
 require_once '/controller/TeamsGamesController.php';
 require_once '/controller/TeamsTrainingController.php';
-
+require_once '/controller/TeamsCalendarController.php';
+require_once '/controller/LoginController.php';
 
 

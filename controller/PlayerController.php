@@ -117,6 +117,10 @@ class PlayerController {
             throw new ValidationException("Date de naissance incorrect! Année min: 1900, année max: "
             . date_parse($now->format('Y-m-d H:i:s'))["year"]);
         }
+        
+        if (!filter_var($player->getEmail(), FILTER_VALIDATE_EMAIL)) {
+            throw new ValidationException("L'email est incorrect.");
+        }
     }
 
 }

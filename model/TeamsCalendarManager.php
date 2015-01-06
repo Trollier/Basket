@@ -1,6 +1,6 @@
 <?php
 
-class TeamsPlayersManager {
+class TeamsCalendarManager {
 
     private $_db;
     private $teamsManager;
@@ -14,7 +14,7 @@ class TeamsPlayersManager {
 
     public function create(TeamsCalendar $teamsCalendar) {
 
-        $req = $this->_db->prepare("SELECT max(idCalendar) FROM `teamsplayers` ");
+        $req = $this->_db->prepare("SELECT max(idCalendar) FROM `teamscalendar` ");
         $req->execute();
         $idTeamsCalendar = $req->fetch();
         $idTeamsCalendar[0] = $idTeamsCalendar[0] + 1;
@@ -28,7 +28,7 @@ class TeamsPlayersManager {
         $req->bindValue(':outTeam', $teamsCalendar->getOutTeam());
         $req->bindValue(':scoreIn', $teamsCalendar->getScoreIn());
         $req->bindValue(':scoreOut', $teamsCalendar->getScoreOut());
-        $req->bindValue(':modified', $teamsCalendar->getModified());
+        $req->bindValue(':modified', 0);
         $req->bindValue(':matchNumber', $teamsCalendar->getMatchNumber());
         $req->bindValue(':dateMatch', $teamsCalendar->getDateMatch());
         $req->bindValue(':timeMatch', $teamsCalendar->getTimeMatch());
@@ -76,7 +76,7 @@ class TeamsPlayersManager {
 
     public function update(TeamsCalendar $teamsCalendar) {
 
-        $req = $this->_db->prepare('UPDATE `teamscalendar` SET `idCalendar`=:idCalendar,`idTeam`=:idTeam,`yearTeam`=:yearTeam,`inTeam`=:inTeam,`outTeam`=:outTeam,`scoreIn`=:scoreIn,`scoreOut`=:scoreOut,`modified`=:modified,`matchNumber`=:matchNumber,`dateMatch`=:dateMatch,`timeMatch`=:timeMatch,`TypeMatch`=:TypeMatch WHEREidCalendar=:idCalendar');
+        $req = $this->_db->prepare('UPDATE `teamscalendar` SET `idTeam`=:idTeam,`yearTeam`=:yearTeam,`inTeam`=:inTeam,`outTeam`=:outTeam,`scoreIn`=:scoreIn,`scoreOut`=:scoreOut,`modified`=:modified,`matchNumber`=:matchNumber,`dateMatch`=:dateMatch,`timeMatch`=:timeMatch,`TypeMatch`=:TypeMatch WHERE idCalendar=:idCalendar');
 
         $req->bindValue(':idCalendar', $teamsCalendar->getIdCalendar());
         $req->bindValue(':idTeam', $teamsCalendar->getIdTeam());
@@ -99,7 +99,7 @@ class TeamsPlayersManager {
         }
     }
 
-    public function deleteTeamsPlayer($id) {
+    public function deleteTeamsCalendar($id) {
 
         $req = $this->_db->prepare("DELETE FROM `teamscalendar` WHERE idCalendar=:idCalendar");
         $req->bindValue(':idCalendar', $id);

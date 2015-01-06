@@ -2,7 +2,10 @@
 $ioc = IOC::getInstance();
 $userController = $ioc["userController"];
 $users = $userController->listAll();
+$loginManager= $ioc["loginManager"];
 ?>
+<?php if ($loginManager->isLoggedIn()): ?>
+
 <div class="container-fluid">
     <p class="pull-right">
         
@@ -12,6 +15,7 @@ $users = $userController->listAll();
 
 
 </div>
+<?php endif; ?>
 <div class="table-responsive">
     <table class="table table-bordered table-striped">
         <tr>

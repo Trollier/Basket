@@ -18,7 +18,9 @@ class Router {
     private $teamsPlayerController;
     private $teamsGamesController;
     private $teamsTrainingController;
-    
+    private $teamsCalendarController;
+    private $loginController;
+
     public function __construct() {
         $this->IOC = IOC::getInstance();
         $this->userController = $this->IOC["userController"];
@@ -36,7 +38,11 @@ class Router {
         $this->teamsPlayerController = $this->IOC["teamsPlayerController"];
         $this->teamsGamesController = $this->IOC["teamsGamesController"];
         $this->teamsTrainingController = $this->IOC["teamsTrainingController"];
+        $this->teamsCalendarController = $this->IOC["teamsCalendarController"];
+        $this->loginController = $this->IOC["loginController"];
     }
+
+  
 
     public function includeTemplate($action) {
         if (isset($_GET["id"])) {
@@ -44,6 +50,8 @@ class Router {
         }
 
         switch ($action) {
+            case "login": return $this->loginController->login();
+            case "logout": return $this->loginController->logout();
             case "ajout-user": return $this->userController->addUser();
             case 'list-user': return $this->userController->listUser();
             case 'edit-user': return $this->userController->editUser();
@@ -107,21 +115,27 @@ class Router {
             case "list-teamsDelegue": return $this->teamsDelegueController->listTeamsDelegue();
             case "delete-teamsDelegue": return $this->teamsDelegueController->deleteTeamsDelegue($id);
             case "edit-teamsDelegue": return $this->teamsDelegueController->editTeamsDelegue();
-                
+
             case "ajout-teamsPlayer": return $this->teamsPlayerController->addTeamsPlayer();
             case "list-teamsPlayer": return $this->teamsPlayerController->listTeamsPlayer();
             case "delete-teamsPlayer": return $this->teamsPlayerController->deleteTeamsPlayer($id);
             case "edit-teamsPlayer": return $this->teamsPlayerController->editTeamsPlayer();
-               
+
             case "ajout-teamsGame": return $this->teamsGamesController->addTeamsGame();
             case "list-teamsGame": return $this->teamsGamesController->listTeamsGame();
             case "delete-teamsGame": return $this->teamsGamesController->deleteTeamsGame($id);
             case "edit-teamsGame": return $this->teamsGamesController->editTeamsGame();
-                
+
             case "ajout-teamsTraining": return $this->teamsTrainingController->addTeamsTraining();
             case "list-teamsTraining": return $this->teamsTrainingController->listTeamsTraining();
             case "delete-teamsTraining": return $this->teamsTrainingController->deleteTeamsTraining($id);
-            case "edit-teamsTraining": return $this->teamsTrainingController->editTeamsTraining();  
+            case "edit-teamsTraining": return $this->teamsTrainingController->editTeamsTraining();
+
+            case "ajout-teamsCalendar": return $this->teamsCalendarController->addTeamsCalendar();
+            case "list-teamsCalendar": return $this->teamsCalendarController->listTeamsCalendar();
+            case "delete-teamsCalendar": return $this->teamsCalendarController->deleteTeamsCalendar($id);
+            case "edit-teamsCalendar": return $this->teamsCalendarController->editTeamsCalendar();
+
             default: return '/view/bienvenue.php';
         }
     }

@@ -39,18 +39,25 @@ class IOC implements ArrayAccess {
 
         $this->container["teamsCoachManager"] = new TeamsCoachManager($this->container["userManager"], $this->container["teamsManager"]);
         $this->container["teamsCoachController"] = new TeamsCoachController($this->container["teamsCoachManager"]);
-        
+
         $this->container["teamsDelegueManager"] = new TeamsDelegueManager($this->container["userManager"], $this->container["teamsManager"]);
         $this->container["teamsDelegueController"] = new TeamsDelegueController($this->container["teamsDelegueManager"]);
-        
+
         $this->container["teamsPlayerManager"] = new TeamsPlayersManager($this->container["playerManager"], $this->container["teamsManager"]);
         $this->container["teamsPlayerController"] = new TeamsPlayersController($this->container["teamsPlayerManager"]);
-        
+
         $this->container["teamsGamesManager"] = new TeamsGamesManager($this->container["daysOfWeekManager"], $this->container["teamsManager"]);
         $this->container["teamsGamesController"] = new TeamsGamesController($this->container["teamsGamesManager"]);
-        
+
         $this->container["teamsTrainingManager"] = new TeamsTrainingsManager($this->container["daysOfWeekManager"], $this->container["teamsManager"]);
         $this->container["teamsTrainingController"] = new TeamsTrainingController($this->container["teamsTrainingManager"]);
+
+        $this->container["teamsCalendarManager"] = new TeamsCalendarManager($this->container["typesMatchManager"], $this->container["teamsManager"]);
+        $this->container["teamsCalendarController"] = new TeamsCalendarController($this->container["teamsCalendarManager"]);
+
+
+        $this->container["loginManager"] = new LoginManager($this->container["userManager"]);
+        $this->container["loginController"] = new LoginController($this->container["loginManager"]);
     }
 
     public static function getInstance() {
