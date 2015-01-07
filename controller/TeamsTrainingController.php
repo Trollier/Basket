@@ -9,6 +9,7 @@ class TeamsTrainingController {
     }
 
     public function addTeamsTraining() {
+        $edit=0;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             $teamsTraining =new TeamsTraining();
@@ -18,7 +19,14 @@ class TeamsTrainingController {
             $teamsTraining->setStartTime($_POST['startTime']);
             $teamsTraining->setEndTime($_POST['EndTime']);
             $teamsTraining->setRoom($_POST['Room']);
-            var_dump($teamsTraining);
+            try {
+                $this->validate($teamsTraining,$edit);
+            } catch (Exception $e) {
+                $_SESSION["error"] = $e->getMessage();
+               
+ 
+                return "/view/teamsTraining/ajout-teamsTraining.php";
+            }
             $this->teamsTrainingManager->create($teamsTraining);
             $_SESSION["flash"] = "Match    " . $teamsTraining->getIdTraining() . " ajouté avec succès";
             return "/view/bienvenue.php";
@@ -40,7 +48,7 @@ class TeamsTrainingController {
     }
 
     public function editTeamsTraining() {
-        
+        $edit=1;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $teamsTraining = new TeamsTraining();
             
@@ -53,10 +61,10 @@ class TeamsTrainingController {
             $teamsTraining->setRoom($_POST['Room']);
            
             try {
-                $this->validate($teamsTraining);
+                $this->validate($teamsTraining,$edit);
             } catch (Exception $e) {
                 $_SESSION["error"] = $e->getMessage();
-                $_GET["idTraining"] = $teamsTraining->getIdTeamGame();
+                $_GET["id"] = $teamsTraining->getIdTraining();
  
                 return "/view/teamsTraining/editer-teamsTraining.php";
             }
@@ -99,26 +107,30 @@ class TeamsTrainingController {
         return $var;
     }
 
-    public function validate($team) {
-//        $team = new Teams();
-//        if (strlen($team->getLabel()) < 2 || strlen($team->getLabel()) > 20) {
-//            
-//            throw new ValidationException("La taille du nom est incorrect");
-//        }
-//        if (strlen($team->getFirstname()) < 2 || strlen($team->getFirstname()) > 20) {
-//            throw new ValidationException("La taille du prénom est incorrect");
-//        }
-//        if (!filter_var($team->getMail(), FILTER_VALIDATE_EMAIL)) {
-//            throw new ValidationException("L'email est incorrect.");
-//        }
-//        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $team->getName())) {
-//            throw new ValidationException("Caractères incorrect dans le nom");
-//        }
-//        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $team->getFirstname())) {
-//            throw new ValidationException("Caractères incorrect dans le prénom");
-//        }
-//        if ($this->userManager->getByMail($team->getMail())) {
-//            throw new ValidationException("L'email existe déjà!");
-//        }
+    public function validate(TeamsTraining $teamsTraining, $edit) {
+
+        $now = new \DateTime();
+
+        if ($teamsTraining->getCurrentYear() > date_parse($now->format('Y-m-d H:i:s'))["year"]) {
+            throw new ValidationException("Year Team incorrect ");
+        }
+
+        if (strlen($teamsTraining->getRoom()) < 2 || strlen($teamsTraining->getRoom()) > 50) {
+            throw new ValidationException("La taille dde position est incorect");
+        }
+        
+        $start= strtotime($teamsTraining->getStartTime());
+        $end= strtotime($teamsTraining->getEndTime());
+        if($start > $end){
+            throw new ValidationException("La date de début est supérieure à la date de fin!");
+        }
+        if ($edit == 0) {
+            
+            if ($this->teamsTrainingManager->validate($teamsTraining->getIdTeam(), $teamsTraining->getDayOfWeek())) {
+                throw new ValidationException("cet entrainement existe déjà!!");
+            }
+        }
+        
+        
     }
 }

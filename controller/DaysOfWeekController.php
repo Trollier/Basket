@@ -1,6 +1,7 @@
 <?php
 
 class DaysOfWeekController {
+
     private $daysOfWeekManager;
 
     public function __construct($daysOfWeekManager) {
@@ -12,7 +13,14 @@ class DaysOfWeekController {
 
             $daysOfWeek = new DaysOfWeek();
             $daysOfWeek->setLabel($_POST["label"]);
-                        
+            
+            try {
+                $this->validate($daysOfWeek);
+            } catch (Exception $e) {
+                $_SESSION["error"] = $e->getMessage();
+                return '/view/daysOfWeek/ajout-daysOfWeek-form.php';
+            }
+            
             $this->daysOfWeekManager->createDaysOfWeek($daysOfWeek);
             $_SESSION["flash"] = "jour  " . $daysOfWeek->getLabel() . " ajouté avec succès";
             return "/view/bienvenue.php";
@@ -20,10 +28,11 @@ class DaysOfWeekController {
         return '/view/daysOfWeek/ajout-daysOfWeek-form.php';
     }
 
-    public function getById($id){
+    public function getById($id) {
         $daysOfWeek = $this->daysOfWeekManager->get($id);
         return $daysOfWeek;
     }
+
     public function listAll() {
         return $this->daysOfWeekManager->listAllDaysOfWeek();
     }
@@ -50,26 +59,22 @@ class DaysOfWeekController {
         }
         return $var;
     }
-    public function validate($user) {
-        
-        if (strlen($user->getName()) < 2 || strlen($user->getName()) > 20) {
-            
-            throw new ValidationException("La taille du nom est incorrect");
+
+    public function validate(DaysOfWeek $day) {
+
+        if (strlen($day->getLabel()) < 3 || strlen($day->getLabel()) > 9) {
+
+            throw new ValidationException("La taille du jour est incorrect");
         }
-        if (strlen($user->getFirstname()) < 2 || strlen($user->getFirstname()) > 20) {
-            throw new ValidationException("La taille du prénom est incorrect");
-        }
-        if (!filter_var($user->getMail(), FILTER_VALIDATE_EMAIL)) {
-            throw new ValidationException("L'email est incorrect.");
-        }
-        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $user->getName())) {
+
+        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $day->getLabel())) {
             throw new ValidationException("Caractères incorrect dans le nom");
         }
-        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $user->getFirstname())) {
-            throw new ValidationException("Caractères incorrect dans le prénom");
+        
+        if ($this->daysOfWeekManager->getByMail($day)){
+            throw new ValidationException("existe déja");
         }
-        if ($this->userManager->getByMail($user->getMail())) {
-            throw new ValidationException("L'email existe déjà!");
-        }
+
     }
+
 }

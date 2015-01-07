@@ -98,5 +98,19 @@ class TeamsTrainingsManager {
             
         }
     }
+    public function validate($idTeam, $dayOfWeek) {
+        $req = $this->_db->prepare("SELECT * FROM `teamstraining` WHERE `idTeam` = :idTeam and dayOfWeek = :dayOfWeek ");
+        try {
+            $req->bindValue(':idTeam', $idTeam);
+            $req->bindValue(':dayOfWeek', $dayOfWeek);
+
+            $req->execute();
+
+            $result = $req->fetchObject("TeamsTraining");
+            return $result;
+        } catch (Exception $ex) {
+            return false;
+        }
+    }
 
 }

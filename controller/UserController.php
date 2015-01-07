@@ -9,6 +9,7 @@ class UserController {
     }
 
     public function addUser() {
+        $edit=0;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $user = new User();
@@ -18,7 +19,7 @@ class UserController {
             $user->setMail($_POST['mail']);
             $user->setPassword(md5($_POST['password']));
             try {
-                $this->validate($user);
+                $this->validate($user,$edit);
             } catch (Exception $e) {
                 $_SESSION["error"] = $e->getMessage();
                 return '/view/user/ajout-user-form.php';
@@ -46,6 +47,7 @@ class UserController {
     }
 
     public function editUser() {
+        $edit=1;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $user = new User();
 
@@ -54,7 +56,7 @@ class UserController {
             $user->setFirstname($_POST['firstname']);
             $user->setMail($_POST['mail']);
             try {
-                $this->validate($user);
+                $this->validate($user,$edit);
             } catch (Exception $e) {
                 $_SESSION["error"] = $e->getMessage();
                 $_GET["idUser"] = $user->getidUser();
@@ -107,7 +109,7 @@ class UserController {
         return $var;
     }
 
-    public function validate($user) {
+    public function validate($user,$edit) {
 
         if (strlen($user->getName()) < 2 || strlen($user->getName()) > 20) {
 
@@ -125,8 +127,11 @@ class UserController {
         if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $user->getFirstname())) {
             throw new ValidationException("Caractères incorrect dans le prénom");
         }
+        
+        if($edit==0){
         if ($this->userManager->getByMail($user->getMail())) {
             throw new ValidationException("L'email existe déjà!");
+        }
         }
     }
 

@@ -1,6 +1,5 @@
 <?php
 
-
 class StaffController {
 
     private $staffManager;
@@ -10,13 +9,19 @@ class StaffController {
     }
 
     public function addStaff() {
+        $edit=0;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $staff = new Staff();
 
             $staff->setLabel($_POST['label']);
             $staff->setOrdre($_POST['ordre']);
-                        
+            try {
+                $this->validate($staff,$edit);
+            } catch (Exception $e) {
+                $_SESSION["error"] = $e->getMessage();
+                return '/view/staff/ajout-staff-form.php';
+            }
             $this->staffManager->createStaff($staff);
             $_SESSION["flash"] = "Staff" . $staff->getLabel() . " ajouté avec succès";
             return "/view/bienvenue.php";
@@ -24,10 +29,11 @@ class StaffController {
         return '/view/staff/ajout-staff-form.php';
     }
 
-    public function getById($id){
+    public function getById($id) {
         $staff = $this->staffManager->getStaff($id);
         return $staff;
     }
+
     public function listAll() {
         return $this->staffManager->listStaff();
     }
@@ -37,6 +43,7 @@ class StaffController {
     }
 
     public function editStaff() {
+        $edit=1;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $staff = new Staff();
 
@@ -44,12 +51,15 @@ class StaffController {
             $staff->setIdStaff($_POST['idStaff']);
             $staff->setOrdre($_POST['ordre']);
             $staff->setShowInMenu($_POST['showInMenu']);
-            
+             try {
+                $this->validate($staff,$edit);
+            } catch (Exception $e) {
+                $_SESSION["error"] = $e->getMessage();
+                 $_GET["idStaff"] = $staff->getIdStaff();
+                return '/view/staff/editer-staff.php';
+            }
 
-
-            $this->staffManager->updateStaff ($staff);
-
-
+            $this->staffManager->updateStaff($staff);
             $_SESSION["flash"] = "Staff " . $staff->getLabel() . " édité avec succès";
             return "/view/bienvenue.php";
         }
@@ -78,11 +88,11 @@ class StaffController {
 
     public function activateStaff($id) {
         $this->check($id);
-        
+
         $staff = $this->staffManager->getStaff($id);
-        
+
         $staff->setActive($_GET["isActived"]);
-        
+
         $this->staffManager->updateStaff($staff);
         return '/view/staff/list-staff.php';
     }
@@ -94,24 +104,26 @@ class StaffController {
         return $var;
     }
 
-    public function validate($staff) {
-        
-        if (strlen($staff->getLabel()) < 2 || strlen($staff->getLabel()) > 20) {
-            
+    public function validate(Staff $staff,$edit) {
+
+        if (strlen($staff->getLabel()) < 2 || strlen($staff->getLabel()) > 50) {
+
             throw new ValidationException("La taille du label est incorrect");
         }
-        if (strlen($staff->getFirstname()) < 2 || strlen($staff->getFirstname()) > 20) {
-            throw new ValidationException("La taille du prénom est incorrect");
+
+        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $staff->getLabel())) {
+            throw new ValidationException("Caractères incorrect dans le label");
         }
-        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $staff->getName())) {
-            throw new ValidationException("Caractères incorrect dans le nom");
+
+        if (!is_numeric($staff->getOrdre())) {
+            throw new ValidationException("entrez un nombre");
         }
-        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $staff->getFirstname())) {
-            throw new ValidationException("Caractères incorrect dans le prénom");
+
+        if($edit==0){
+        if ($this->staffManager->validate($staff)) {
+            throw new ValidationException("Le label existe déjà!");
         }
-        if ($this->userManager->getByMail($staff->getMail())) {
-            throw new ValidationException("L'email existe déjà!");
         }
     }
-}
 
+}

@@ -93,5 +93,20 @@ class TeamsDelegueManager {
             
         }
     }
+    
+    public function validate ($idTeam, $idDelegue) {
+        $req = $this->_db->prepare("SELECT * FROM `teamsdelegues` WHERE `idTeam` = :idTeam and idDelegue = :idDelegue ");
+        try {
+            $req->bindValue(':idTeam', $idTeam);
+            $req->bindValue(':idDelegue', $idDelegue);
+            
+            $req->execute();
+          
+            $result = $req->fetchObject("TeamsDelegue");
+            return $result;
+        } catch (Exception $ex) {
+            return false;
+        }
+    }
 
 }

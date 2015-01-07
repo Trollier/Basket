@@ -55,7 +55,7 @@ class Form {
         if($value === null){
             $value = "";
         }
-        $input.="<input type='$type' name='$id' id='$id' class='form-control' value='$value' />";
+        $input.="<input type='$type' name='$id' id='$id' class='form-control' value='$value' required/>";
         $input.="</div>";
         return $input;
     }

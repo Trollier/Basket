@@ -1,8 +1,8 @@
 <?php
 
 class TeamsCoachController {
-   
-      private $teamsCoachManager;
+
+    private $teamsCoachManager;
 
     public function __construct($teamsCoachManager) {
         $this->teamsCoachManager = $teamsCoachManager;
@@ -11,14 +11,20 @@ class TeamsCoachController {
     public function addTeamsCoach() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            $teamsCoach =new TeamsCoach();
+            $teamsCoach = new TeamsCoach();
             $teamsCoach->setIdTeam($_POST['idTeam']);
             $teamsCoach->setIdCoach($_POST['idCoach']);
             $teamsCoach->setCoachLicence($_POST['coachLicence']);
             $teamsCoach->setMainCoach($_POST['mainCoach']);
             $teamsCoach->setYearTeam($_POST['YearTeam']);
+            $edit =0;
+            try {
+                $this->validate($teamsCoach);
+            } catch (Exception $e) {
+                $_SESSION["error"] = $e->getMessage();
+                return "/view/teamsCoach/ajout-teamsCoach.php";
+            }
 
-            
             $this->teamsCoachManager->create($teamsCoach);
             $_SESSION["flash"] = "coach de l'equipe    " . $teamsCoach->getLabel() . " ajouté avec succès";
             return "/view/bienvenue.php";
@@ -40,24 +46,24 @@ class TeamsCoachController {
     }
 
     public function editTeamsCoach() {
-        
+          $edit =1;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $teamsCoach =new TeamsCoach();
+            $teamsCoach = new TeamsCoach();
             $teamsCoach->setIdTeam($_POST['idTeam']);
             $teamsCoach->setIdCoach($_POST['idCoach']);
             $teamsCoach->setCoachLicence($_POST['coachLicence']);
             $teamsCoach->setMainCoach($_POST['mainCoach']);
             $teamsCoach->setYearTeam($_POST['YearTeam']);
             $teamsCoach->setIdTeamCoach($_POST['idTeamCoach']);
-            
-         
+
+
 
             try {
-                $this->validate($teamsCoach);
+                $this->validate($teamsCoach,$edit);
             } catch (Exception $e) {
                 $_SESSION["error"] = $e->getMessage();
-                $_GET["idTeamCoach"] = $teamsCoach->getIdTeamCoach();
- 
+                $_GET["id"] = $teamsCoach->getIdTeamCoach();
+
                 return "/view/teamsCoach/editer-teamsCoach.php";
             }
             $this->teamsCoachManager->update($teamsCoach);
@@ -66,8 +72,8 @@ class TeamsCoachController {
             $_SESSION["flash"] = "Coach de l'equipe " . $teamsCoach->getIdTeamCoach() . " édité avec succès";
             return "/view/bienvenue.php";
         }
-        
-      
+
+
         $id = $_GET["id"];
         $this->check($id);
         $_GET["idTeamCoach"] = $id;
@@ -91,7 +97,6 @@ class TeamsCoachController {
         return '/view/bienvenue.php';
     }
 
-
     public function check($var) {
         if (!isset($var)) {
             header("Location: index.php");
@@ -99,26 +104,18 @@ class TeamsCoachController {
         return $var;
     }
 
-    public function validate($team) {
-//        $team = new Teams();
-//        if (strlen($team->getLabel()) < 2 || strlen($team->getLabel()) > 20) {
-//            
-//            throw new ValidationException("La taille du nom est incorrect");
-//        }
-//        if (strlen($team->getFirstname()) < 2 || strlen($team->getFirstname()) > 20) {
-//            throw new ValidationException("La taille du prénom est incorrect");
-//        }
-//        if (!filter_var($team->getMail(), FILTER_VALIDATE_EMAIL)) {
-//            throw new ValidationException("L'email est incorrect.");
-//        }
-//        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $team->getName())) {
-//            throw new ValidationException("Caractères incorrect dans le nom");
-//        }
-//        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $team->getFirstname())) {
-//            throw new ValidationException("Caractères incorrect dans le prénom");
-//        }
-//        if ($this->userManager->getByMail($team->getMail())) {
-//            throw new ValidationException("L'email existe déjà!");
-//        }
+    public function validate(TeamsCoach $teamcoach,$edit) {
+
+        $now = new \DateTime();
+
+        if ($teamcoach->getYearTeam() > date_parse($now->format('Y-m-d H:i:s'))["year"]) {
+            throw new ValidationException("Year Team incorrect ");
+        }     
+        if($edit=0){
+        if ($this->teamsCoachManager->validate($teamcoach->getIdTeam(), $teamcoach->getIdCoach())) {
+            throw new ValidationException("Le  team-coach existe déjà!!");
+        }
+        }
     }
+
 }

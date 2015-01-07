@@ -15,7 +15,7 @@ foreach($roles as $role){
     $selectRoles[$role->getRoleTypeId()] = $role->getLabel();
 }
 
-$staffRoleType= $staffsRoleTypeManager->get($_GET["idStaffRoleype"]);
+$staffRoleType= $staffsRoleTypeManager->get($_GET["id"]);
 if (isset($_SESSION["error"])) {
     echo "<div class='alert alert-danger'>" . $_SESSION['error'] . "</div>";
     unset($_SESSION["error"]);

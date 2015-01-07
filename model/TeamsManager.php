@@ -64,7 +64,7 @@ class TeamsManager {
 
             return $teams;
         } catch (error $e) {
-            var_dump($e);
+         
             die();
         }
     }
@@ -120,6 +120,21 @@ class TeamsManager {
             return $result;
         } catch (Exception $ex) {
             
+        }
+    }
+    
+     public function validate ($label) {
+        $req = $this->_db->prepare("SELECT * FROM `teams` WHERE `label` = :label  ");
+        try {
+            $req->bindValue(':label', $label);
+            
+            
+            $req->execute();
+
+            $result = $req->fetchObject("Teams");
+            return $result;
+        } catch (Exception $ex) {
+            return false;
         }
     }
 

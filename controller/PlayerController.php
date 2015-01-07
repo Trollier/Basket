@@ -9,6 +9,7 @@ class PlayerController {
     }
 
     public function addPlayer() {
+        $edit=0;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $player = new Player();
@@ -18,7 +19,7 @@ class PlayerController {
             $player->setBirthdate($_POST['date']);
             $player->setEmail($_POST['mail']);
             try {
-                $this->validate($player);
+                $this->validate($player,$edit);
             } catch (Exception $e) {
                 $_SESSION["error"] = $e->getMessage();
                 return '/view/player/ajout-player-form.php';
@@ -46,6 +47,7 @@ class PlayerController {
     }
 
     public function editPlayer() {
+        $edit=1;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $player = new Player();
 
@@ -55,7 +57,7 @@ class PlayerController {
             $player->setBirthdate($_POST['date']);
             $player->setEmail($_POST['mail']);
             try {
-                $this->validate($player);
+                $this->validate($player,$edit);
             } catch (Exception $e) {
                 $_SESSION["error"] = $e->getMessage();
                 $_GET["idPlayer"] = $player->getIdPlayer();
@@ -107,19 +109,42 @@ class PlayerController {
         return $var;
     }
 
-    public function validate(Player $player) {
+    public function validate(Player $player,$edit) {
         $date = date_parse($player->getBirthdate());
-        $now =  new \DateTime();
+        $now = new \DateTime();
         if (!($date["error_count"] == 0 && checkdate($date["month"], $date["day"], $date["year"]))) {
             throw new ValidationException("Date de naissance invalide!");
         }
-        if ($date["year"] < 1900 || $date["year"] > date_parse($now->format('Y-m-d H:i:s'))["year"]) {
+        if ($date["year"] < 1900 || $date["year"] > date_parse($now->format('Y-m-d H:i:s'))["year"]-3) {
             throw new ValidationException("Date de naissance incorrect! Année min: 1900, année max: "
-            . date_parse($now->format('Y-m-d H:i:s'))["year"]);
+            . (date_parse($now->format('Y-m-d H:i:s'))["year"]-3));
         }
-        
+
         if (!filter_var($player->getEmail(), FILTER_VALIDATE_EMAIL)) {
             throw new ValidationException("L'email est incorrect.");
+        }
+
+        if (strlen($player->getName()) < 2 || strlen($player->getName()) > 20) {
+
+            throw new ValidationException("La taille du nom est incorrect");
+        }
+        if (strlen($player->getFirstname()) < 2 || strlen($player->getFirstname()) > 20) {
+            throw new ValidationException("La taille du prénom est incorrect");
+        }
+        if (!filter_var($player->getEmail(), FILTER_VALIDATE_EMAIL)) {
+            throw new ValidationException("L'email est incorrect.");
+        }
+        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $player->getName())) {
+            throw new ValidationException("Caractères incorrect dans le nom");
+        }
+        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $player->getFirstname())) {
+            throw new ValidationException("Caractères incorrect dans le prénom");
+        }
+        
+        if($edit==0){
+        if ($this->playerManager->getByMail($player)) {
+            throw new ValidationException("Le joueur existe déjà!");
+        }
         }
     }
 

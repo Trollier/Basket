@@ -11,7 +11,7 @@ class LoginManager {
     public function login($mail, $password) {
 
         $user = $this->userManager->getByMail($mail);
-        if ($user->getPassword() === substr(md5($password), 0, 20)) {
+        if (isset($user) && $user!=null && $user->getPassword() === substr(md5($password), 0, 20)) {
             setcookie("user", $user->getName(), time() + 60 * 60 * 24 * 30);
             return $user;
         } else {

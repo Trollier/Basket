@@ -60,6 +60,7 @@ class RoleController {
             $role->setRoleTypeId($_POST['idRoleType']);
             $role->setIdRole($_POST['idRole']);
             try {
+                
                 $this->validate($role);
                 
             } catch (Exception $e) {

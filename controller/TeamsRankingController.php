@@ -1,17 +1,18 @@
 <?php
 
 class TeamsRankingController {
-   
-      private $teamsRankingManager;
+
+    private $teamsRankingManager;
 
     public function __construct($teamsRankingManager) {
         $this->teamsRankingManager = $teamsRankingManager;
     }
 
     public function addTeamsRanking() {
+        $edit = 0;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            $teamsRanking =new TeamsRanking();
+            $teamsRanking = new TeamsRanking();
             $teamsRanking->setDateRanking($_POST['dateRanking']);
             $teamsRanking->setDeuce($_POST['deuce']);
             $teamsRanking->setIdTeam($_POST['idTeam']);
@@ -20,7 +21,13 @@ class TeamsRankingController {
             $teamsRanking->setName($_POST['name']);
             $teamsRanking->setPlayed($_POST['played']);
             $teamsRanking->setWin($_POST['win']);
-            
+            try {
+                $this->validate($teamsRanking, $edit);
+            } catch (Exception $e) {
+                $_SESSION["error"] = $e->getMessage();
+
+                return "/view/teamsRanking/ajout-teamsRanking.php";
+            }
             $this->teamsRankingManager->create($teamsRanking);
             $_SESSION["flash"] = "classement de l'equipe    " . $teamsRanking->getName() . " ajouté avec succès";
             return "/view/bienvenue.php";
@@ -42,10 +49,10 @@ class TeamsRankingController {
     }
 
     public function editTeamsRanking() {
-        
+        $edit = 1;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-           
-            $teamsRanking =new TeamsRanking();
+
+            $teamsRanking = new TeamsRanking();
             $teamsRanking->setDateRanking($_POST['dateRanking']);
             $teamsRanking->setDeuce($_POST['deuce']);
             $teamsRanking->setIdRanking($_POST['idRanking']);
@@ -57,11 +64,11 @@ class TeamsRankingController {
             $teamsRanking->setWin($_POST['win']);
 
             try {
-                $this->validate($teamsRanking);
+                $this->validate($teamsRanking, $edit);
             } catch (Exception $e) {
                 $_SESSION["error"] = $e->getMessage();
                 $_GET["idTeamsRanking"] = $teamsRanking->getIdRanking();
- 
+
                 return "/view/teamsRanking/editer-teamsRanking.php";
             }
             $this->teamsRankingManager->update($teamsRanking);
@@ -70,8 +77,8 @@ class TeamsRankingController {
             $_SESSION["flash"] = "classement de l'equipe " . $teamsRanking->getName() . " édité avec succès";
             return "/view/bienvenue.php";
         }
-        
-      
+
+
         $id = $_GET["id"];
         $this->check($id);
         $_GET["idTeamsRanking"] = $id;
@@ -95,7 +102,6 @@ class TeamsRankingController {
         return '/view/bienvenue.php';
     }
 
-
     public function check($var) {
         if (!isset($var)) {
             header("Location: index.php");
@@ -103,26 +109,44 @@ class TeamsRankingController {
         return $var;
     }
 
-    public function validate($team) {
-//        $team = new Teams();
-//        if (strlen($team->getLabel()) < 2 || strlen($team->getLabel()) > 20) {
-//            
-//            throw new ValidationException("La taille du nom est incorrect");
-//        }
-//        if (strlen($team->getFirstname()) < 2 || strlen($team->getFirstname()) > 20) {
-//            throw new ValidationException("La taille du prénom est incorrect");
-//        }
-//        if (!filter_var($team->getMail(), FILTER_VALIDATE_EMAIL)) {
-//            throw new ValidationException("L'email est incorrect.");
-//        }
-//        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $team->getName())) {
-//            throw new ValidationException("Caractères incorrect dans le nom");
-//        }
-//        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $team->getFirstname())) {
-//            throw new ValidationException("Caractères incorrect dans le prénom");
-//        }
-//        if ($this->userManager->getByMail($team->getMail())) {
-//            throw new ValidationException("L'email existe déjà!");
-//        }
+    public function validate(TeamsRanking $teamRanking, $edit) {
+
+        if (!is_int(intval(($teamRanking->getDeuce())))) {
+
+            throw new ValidationException("Entrez un chiffre ou nombre entier MatchNumber");
+        }
+        if (!is_int(intval(($teamRanking->getLost())))) {
+
+            throw new ValidationException("Entrez un chiffre ou nombre entier MatchNumber");
+        }
+        if (!is_int(intval(($teamRanking->getPlayed())))) {
+
+            throw new ValidationException("Entrez un chiffre ou nombre entier MatchNumber");
+        }
+        if (!is_int(intval(($teamRanking->getWin())))) {
+
+            throw new ValidationException("Entrez un chiffre ou nombre entier MatchNumber");
+        }
+
+        $now = new \DateTime();
+
+        if ($teamRanking->getMyYear() > date_parse($now->format('Y-m-d H:i:s'))["year"]) {
+            throw new ValidationException("année incorrect ");
+        }
+
+        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $teamRanking->getName())) {
+            throw new ValidationException("Caractères incorrect dans le nom");
+        }
+
+        if (strlen($teamRanking->getName()) < 2 || strlen($teamRanking->getName()) > 20) {
+            throw new ValidationException("La taille du prénom est incorrect");
+        }
+
+        if ($edit == 0) {
+            if ($this->teamsRankingManager->validate($teamRanking->getIdTeam())) {
+                throw new ValidationException("Le calendrier existe déjà!!");
+            }
+        }
     }
+
 }

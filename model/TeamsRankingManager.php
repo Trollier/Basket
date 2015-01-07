@@ -1,7 +1,7 @@
 <?php
 
-
 class TeamsRankingManager {
+
     private $_db;
     private $teamsManager;
 
@@ -11,13 +11,13 @@ class TeamsRankingManager {
     }
 
     public function create(TeamsRanking $teamsRanking) {
-     
+
         $req = $this->_db->prepare("SELECT max( idRanking ) FROM `teamsranking` ");
         $req->execute();
         $idTeamRanking = $req->fetch();
         $idTeamRanking[0] = $idTeamRanking[0] + 1;
 
-        $points = ($teamsRanking->getWin()*3)+($teamsRanking->getDeuce());
+        $points = ($teamsRanking->getWin() * 3) + ($teamsRanking->getDeuce());
         $req = $this->_db->prepare('INSERT INTO `teamsranking`(`idRanking`, `idTeam`, `myYear`, `name`, `played`, `win`, `lost`, `deuce`, `points`, `dateRanking`)'
                 . ' VALUES (:idTeamsRanking,:idTeam,:myYear,:name,:played,:win,:lost,:deuce,:points,:dateRanking)');
         $req->bindValue(':idTeamsRanking', $idTeamRanking[0]);
@@ -44,14 +44,14 @@ class TeamsRankingManager {
 
     public function listAll() {
         $req = $this->_db->prepare("SELECT `idRanking`, teamsRanking.`idTeam`, `myYear`, `name`, `played`, `win`, `lost`, `deuce`, `points`, `dateRanking` FROM `teamsranking`,teams WHERE teams.idTeam = teamsRanking.idTeam");
-        
+
 
         try {
             $req->execute();
             $teamsRanking = $req->fetchAll(PDO::FETCH_CLASS, "TeamsRanking");
             return $teamsRanking;
         } catch (error $e) {
-
+            
         }
     }
 
@@ -69,11 +69,11 @@ class TeamsRankingManager {
     }
 
     public function update(TeamsRanking $teamsRanking) {
-        $points = ($teamsRanking->getWin()*3)+($teamsRanking->getDeuce());
+        $points = ($teamsRanking->getWin() * 3) + ($teamsRanking->getDeuce());
         $req = $this->_db->prepare('UPDATE `teamsranking` SET `idTeam`=:idTeam,`myYear`=:myYear,`name`=:name,'
                 . '`played`=:played,`win`=:win,`lost`=:lost,`deuce`=:deuce,'
                 . '`points`=:points,`dateRanking`=:dateRanking WHERE :idTeamsRanking=idRanking');
-        
+
         $req->bindValue(':idTeamsRanking', $teamsRanking->getIdRanking());
         $req->bindValue(':dateRanking', $teamsRanking->getDateRanking());
         $req->bindValue(':deuce', $teamsRanking->getDeuce());
@@ -99,6 +99,20 @@ class TeamsRankingManager {
             $req->execute();
         } catch (error $e) {
             
+        }
+    }
+
+    public function validate($idTeam) {
+        $req = $this->_db->prepare("SELECT * FROM `teamsRanking` WHERE `idTeam` = :idTeam ");
+        try {
+            $req->bindValue(':idTeam', $idTeam);
+
+            $req->execute();
+
+            $result = $req->fetchObject("TeamsRanking");
+            return $result;
+        } catch (Exception $ex) {
+            return false;
         }
     }
 

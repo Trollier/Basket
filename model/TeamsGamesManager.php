@@ -13,7 +13,7 @@ class TeamsGamesManager {
     }
 
     public function create(TeamsGames $teamsGame) {
-       
+
         $req = $this->_db->prepare("SELECT max(idTeamGame) FROM `teamsgames` ");
         $req->execute();
         $idTeamsGame = $req->fetch();
@@ -24,8 +24,8 @@ class TeamsGamesManager {
         $req->bindValue(':idTeam', $teamsGame->getIdTeam());
         $req->bindValue(':currentYear', $teamsGame->getCurrentYear());
         $req->bindValue(':gameDay', $teamsGame->getGameDay());
-        $req->bindValue(':gameTime', $teamsGame->getGameTime().':00');
-        
+        $req->bindValue(':gameTime', $teamsGame->getGameTime() . ':00');
+
         try {
             $req->execute();
         } catch (Exception $e) {
@@ -55,7 +55,7 @@ class TeamsGamesManager {
     }
 
     public function get($id) {
-      
+
         $req = $this->_db->prepare("SELECT * FROM `teamsgames` WHERE `idTeamGame` = :idTeamGame");
         try {
             $req->bindValue(':idTeamGame', $id);
@@ -67,15 +67,15 @@ class TeamsGamesManager {
         }
     }
 
-    public function update( $teamsGame) {
-        var_dump($teamsGame);
+    public function update($teamsGame) {
+     
         $req = $this->_db->prepare('UPDATE `teamsgames` SET `idTeam`=:idTeam,`currentYear`=:currentYear,`gameDay`=:gameDay,`gameTime`=:gameTime WHERE  `idTeamGame`=:idTeamGame');
 
         $req->bindValue(':idTeamGame', $teamsGame->getIdTeamGame());
         $req->bindValue(':idTeam', $teamsGame->getIdTeam());
         $req->bindValue(':currentYear', $teamsGame->getCurrentYear());
         $req->bindValue(':gameDay', $teamsGame->getGameDay());
-        $req->bindValue(':gameTime', $teamsGame->getGameTime().':00');
+        $req->bindValue(':gameTime', $teamsGame->getGameTime() . ':00');
 
 
         try {
@@ -85,14 +85,29 @@ class TeamsGamesManager {
         }
     }
 
-    public function deleteTeamsGame ($teamsGame) {
-        
+    public function deleteTeamsGame($teamsGame) {
+
         $req = $this->_db->prepare("DELETE FROM `teamsgames` WHERE  `idTeamGame`=:idTeamGame ");
         $req->bindValue(':idTeamGame', $teamsGame);
         try {
             $req->execute();
         } catch (error $e) {
             
+        }
+    }
+
+    public function validate($idTeam, $idDelegue) {
+        $req = $this->_db->prepare("SELECT * FROM `teamsgames` WHERE `idTeam` = :idTeam and gameDay = :idDelegue ");
+        try {
+            $req->bindValue(':idTeam', $idTeam);
+            $req->bindValue(':idDelegue', $idDelegue);
+
+            $req->execute();
+
+            $result = $req->fetchObject("TeamsDelegue");
+            return $result;
+        } catch (Exception $ex) {
+            return false;
         }
     }
 

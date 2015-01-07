@@ -108,6 +108,22 @@ class TeamsCalendarManager {
         } catch (error $e) {
             
         }
+        
+    }    
+    
+        public function validate ($idTeam, $type) {
+        $req = $this->_db->prepare("SELECT * FROM `teamscalendar` WHERE `idTeam` = :idTeam and TypeMatch = :Type ");
+        try {
+            $req->bindValue(':idTeam', $idTeam);
+            $req->bindValue(':Type', $type);
+            
+            $req->execute();
+
+            $result = $req->fetchObject("TeamsCalendar");
+            return $result;
+        } catch (Exception $ex) {
+            return false;
+        }
     }
 
 }

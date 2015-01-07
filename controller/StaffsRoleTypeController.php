@@ -61,7 +61,7 @@ class StaffsRoleTypeController {
                 $this->validate($staffRoleType);
             } catch (Exception $e) {
                 $_SESSION["error"] = $e->getMessage();
-                $_GET["idStaffRoleype"] = $staffRoleType->getIdStaffRoleType();
+                $_GET["id"] = $staffRoleType->getIdStaffRoleType();
 
                 return "/view/staffsroletypes/editer-staffroletype.php";
             }
@@ -89,7 +89,7 @@ class StaffsRoleTypeController {
         if ($this->staffsRoleTypeManager->getByIdRoletypeAndIdStaff($staffRoleType->getIdRoleType(), $staffRoleType->getIdStaff())) {
             throw new ValidationException("Le staff roletype existe déjà!!");
         }
-//        
+       
     }
 
 }

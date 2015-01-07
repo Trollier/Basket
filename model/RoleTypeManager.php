@@ -91,5 +91,16 @@ class RoleTypeManager {
         }
     }
     
+    public function validate (RoleType $role) {
+        $req = $this->_db->prepare("SELECT * FROM `roletype` WHERE `label` = :label ");
+        try {
+            $req->bindValue(':label', $role->getLabel());
+            $req->execute();
 
+            $result = $req->fetchObject("RoleType");
+            return $result;
+        } catch (Exception $ex) {
+            return false;
+        }
+    }
 }

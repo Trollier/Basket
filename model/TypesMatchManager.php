@@ -67,5 +67,20 @@ class TypesMatchManager {
             return $e;
         }
     }
+    
+        public function validate (TypesMatchs $type) {
+        
+        $req = $this->_db->prepare("SELECT * FROM `typesmatchs`  where  idTypeMatch=:id  ");
+        try {
+          
+            $req->bindValue(':id', $type->getIdTypeMatch());
+            $req->execute();
+
+            $result = $req->fetchObject("DaysOfWeek");
+            return $result;
+        } catch (Exception $ex) {
+            
+        }
+    }
 
 }

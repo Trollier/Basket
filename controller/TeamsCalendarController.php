@@ -1,17 +1,18 @@
 <?php
 
 class TeamsCalendarController {
-   
-      private $teamsCalendarManager;
+
+    private $teamsCalendarManager;
 
     public function __construct($teamsCalendarManager) {
         $this->teamsCalendarManager = $teamsCalendarManager;
     }
 
     public function addTeamsCalendar() {
+        $edit=0;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            
-            $teamsCalendar =new TeamsCalendar();
+
+            $teamsCalendar = new TeamsCalendar();
             $teamsCalendar->setDateMatch($_POST['dateMatch']);
             $teamsCalendar->setIdTeam($_POST['idTeam']);
             $teamsCalendar->setInTeam($_POST['inTeam']);
@@ -22,6 +23,12 @@ class TeamsCalendarController {
             $teamsCalendar->setTimeMatch($_POST['timeMatch']);
             $teamsCalendar->setTypeMatch($_POST['TypeMatch']);
             $teamsCalendar->setYearTeam($_POST['yearTeam']);
+            try {
+                $this->validate($teamsCalendar);
+            } catch (Exception $e) {
+                $_SESSION["error"] = $e->getMessage();
+                return '/view/teamsCalendar/ajout-teamsCalendar.php';
+            }
             $this->teamsCalendarManager->create($teamsCalendar);
             $_SESSION["flash"] = "Date Match de l'equipe    " . $teamsCalendar->getIdCalendar() . " ajouté avec succès";
             return "/view/bienvenue.php";
@@ -43,9 +50,9 @@ class TeamsCalendarController {
     }
 
     public function editTeamsCalendar() {
-        
+        $edit=1;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $teamsCalendar =new TeamsCalendar();
+            $teamsCalendar = new TeamsCalendar();
             $teamsCalendar->setIdCalendar($_POST['idCalendar']);
             $teamsCalendar->setDateMatch($_POST['dateMatch']);
             $teamsCalendar->setIdTeam($_POST['idTeam']);
@@ -57,13 +64,13 @@ class TeamsCalendarController {
             $teamsCalendar->setTimeMatch($_POST['timeMatch']);
             $teamsCalendar->setTypeMatch($_POST['TypeMatch']);
             $teamsCalendar->setYearTeam($_POST['yearTeam']);
-           
+
             try {
                 $this->validate($teamsCalendar);
             } catch (Exception $e) {
                 $_SESSION["error"] = $e->getMessage();
-                $_GET["idTeamCalendar"] = $teamsCalendar->getIdTeamPlayer();
- 
+                $_GET["id"] = $teamsCalendar->getIdCalendar();
+
                 return "/view/teamsCalendar/editer-teamsCalendar.php";
             }
             $this->teamsCalendarManager->update($teamsCalendar);
@@ -72,8 +79,8 @@ class TeamsCalendarController {
             $_SESSION["flash"] = "Date Match de l'equipe " . $teamsCalendar->getIdCalendar() . " édité avec succès";
             return "/view/bienvenue.php";
         }
-        
-      
+
+
         $id = $_GET["id"];
         $this->check($id);
         $_GET["idTeamCalendar"] = $id;
@@ -97,7 +104,6 @@ class TeamsCalendarController {
         return '/view/bienvenue.php';
     }
 
-
     public function check($var) {
         if (!isset($var)) {
             header("Location: index.php");
@@ -105,26 +111,37 @@ class TeamsCalendarController {
         return $var;
     }
 
-    public function validate($team) {
-//        $team = new Teams();
-//        if (strlen($team->getLabel()) < 2 || strlen($team->getLabel()) > 20) {
-//            
-//            throw new ValidationException("La taille du nom est incorrect");
-//        }
-//        if (strlen($team->getFirstname()) < 2 || strlen($team->getFirstname()) > 20) {
-//            throw new ValidationException("La taille du prénom est incorrect");
-//        }
-//        if (!filter_var($team->getMail(), FILTER_VALIDATE_EMAIL)) {
-//            throw new ValidationException("L'email est incorrect.");
-//        }
-//        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $team->getName())) {
-//            throw new ValidationException("Caractères incorrect dans le nom");
-//        }
-//        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $team->getFirstname())) {
-//            throw new ValidationException("Caractères incorrect dans le prénom");
-//        }
-//        if ($this->userManager->getByMail($team->getMail())) {
-//            throw new ValidationException("L'email existe déjà!");
-//        }
+    public function validate(TeamsCalendar $teamCalendar ,$edit) {
+        $today = new DateTime();
+        $date = date_parse($teamCalendar->getDateMatch());
+
+        $now = new \DateTime();
+       
+        if ($teamCalendar->getYearTeam() > date_parse($now->format('Y-m-d H:i:s'))["year"] ) {
+            throw new ValidationException("Year Team incorrect ");
+        }
+
+
+        if (!is_int(intval(($teamCalendar->getMatchNumber())))) {
+
+            throw new ValidationException("Entrez un chiffre ou nombre entier MatchNumber");
+        }
+
+
+        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $teamCalendar->getInTeam())) {
+            throw new ValidationException("entrez du texte inTeam ");
+        }
+        
+        
+        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $teamCalendar->getOutTeam())) {
+            throw new ValidationException("entrez du texte outTeam");
+        }
+
+        if($edit==0){
+         if ($this->teamsCalendarManager->validate($teamCalendar->getIdTeam(), $teamCalendar->getTypeMatch())) {
+            throw new ValidationException("Le calendrier existe déjà!!");
+        }
+        }
     }
+
 }

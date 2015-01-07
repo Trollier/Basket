@@ -90,5 +90,16 @@ class StaffManager {
         }
     }
     
+        public function validate (Staff $staff) {
+        $req = $this->_db->prepare("SELECT * FROM `staffs` WHERE `label` = :label ");
+        try {
+            $req->bindValue(':label', $staff->getLabel());
+            $req->execute();
 
+            $result = $req->fetchObject("Staff");
+            return $result;
+        } catch (Exception $ex) {
+            return false;
+        }
+    }
 }

@@ -1,6 +1,5 @@
 <?php
 
-
 class RoleTypeController {
 
     private $roleTypeManager;
@@ -10,13 +9,19 @@ class RoleTypeController {
     }
 
     public function addRoleType() {
+        $edit=0;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $roleType = new RoleType();
 
             $roleType->setLabel($_POST['label']);
             $roleType->setOrdre($_POST['ordre']);
-                        
+            try {
+                $this->validate($roleType,$edit);
+            } catch (Exception $e) {
+                $_SESSION["error"] = $e->getMessage();
+                return '/view/roleType/ajout-roleType-form.php';
+            }
             $this->roleTypeManager->createRoleType($roleType);
             $_SESSION["flash"] = "roleType  " . $roleType->getLabel() . " ajouté avec succès";
             return "/view/bienvenue.php";
@@ -24,10 +29,11 @@ class RoleTypeController {
         return '/view/roleType/ajout-roleType-form.php';
     }
 
-    public function getById($id){
+    public function getById($id) {
         $roleType = $this->roleTypeManager->get($id);
         return $roleType;
     }
+
     public function listAll() {
         return $this->roleTypeManager->listAllRoleTypes();
     }
@@ -37,14 +43,21 @@ class RoleTypeController {
     }
 
     public function editRoleType() {
+        $edit=1;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $roleType = new RoleType();
 
             $roleType->setLabel($_POST['label']);
-            $roleType->setOrdre($_POST['ordre']);      
-            $roleType->setRoleTypeId($_POST['roleTypeId']); 
-
-            $this->roleTypeManager->updateRoleType ($roleType);
+            $roleType->setOrdre($_POST['ordre']);
+            $roleType->setRoleTypeId($_POST['roleTypeId']);
+            try {
+                $this->validate($roleType,$edit);
+            } catch (Exception $e) {
+                $_SESSION["error"] = $e->getMessage();
+                $_GET["roleTypeId"] = $roleType->getRoleTypeId();
+                return '/view/roleType/editer-roleType.php';
+            }
+            $this->roleTypeManager->updateRoleType($roleType);
 
 
             $_SESSION["flash"] = "RoleType " . $roleType->getLabel() . " édité avec succès";
@@ -53,7 +66,7 @@ class RoleTypeController {
         $id = $_GET["id"];
         $this->check($id);
         $_GET["roleTypeId"] = $id;
-        
+
         if (!isset($id)) {
             return "/view/bienvenue.php";
         }
@@ -75,9 +88,9 @@ class RoleTypeController {
 
     public function activateRoleType($id) {
         $this->check($id);
-        
+
         $roleType = $this->roleTypeManager->get($id);
-        
+
         $roleType->setActive($_GET["isActived"]);
         $this->roleTypeManager->updateRoleType($roleType);
         return '/view/roleType/list-roleType.php';
@@ -89,28 +102,27 @@ class RoleTypeController {
         }
         return $var;
     }
-    public function validate($user) {
-        
-        if (strlen($user->getName()) < 2 || strlen($user->getName()) > 20) {
-            
+
+    public function validate(RoleType $roleType,$edit) {
+
+        if (strlen($roleType->getLabel()) < 2 || strlen($roleType->getLabel()) > 20) {
+
             throw new ValidationException("La taille du nom est incorrect");
         }
-        if (strlen($user->getFirstname()) < 2 || strlen($user->getFirstname()) > 20) {
-            throw new ValidationException("La taille du prénom est incorrect");
-        }
-        if (!filter_var($user->getMail(), FILTER_VALIDATE_EMAIL)) {
-            throw new ValidationException("L'email est incorrect.");
-        }
-        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $user->getName())) {
+
+        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $roleType->getLabel())) {
             throw new ValidationException("Caractères incorrect dans le nom");
         }
-        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $user->getFirstname())) {
-            throw new ValidationException("Caractères incorrect dans le prénom");
+        
+        if (!is_numeric($roleType->getOrdre())) {
+            throw new ValidationException("entrez un nombre");
         }
-        if ($this->userManager->getByMail($user->getMail())) {
-            throw new ValidationException("L'email existe déjà!");
+        
+        if($edit==0){
+        if ($this->roleTypeManager->validate($roleType)) {
+            throw new ValidationException("Le label existe déjà!");
+        }
         }
     }
 
 }
-

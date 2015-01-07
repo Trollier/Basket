@@ -96,5 +96,23 @@ class TeamsCoachManager {
             
         }
     }
+    
+        
+        public function validate ($idTeam, $idcoach) {
+         
+        $req = $this->_db->prepare("SELECT * FROM `teamscoaches` WHERE `idTeam` = :idTeam and `idCoach` = :idcoach ");
+        try {
+            $req->bindValue(':idTeam', $idTeam);
+            $req->bindValue(':idcoach', $idcoach);
+            
+            $req->execute();
+
+            $result = $req->fetchObject("TeamsCoach");
+            
+            return $result;
+        } catch (Exception $ex) {
+            return false;
+        }
+    }
 
 }

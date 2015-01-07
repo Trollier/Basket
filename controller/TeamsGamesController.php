@@ -1,22 +1,29 @@
 <?php
 
 class TeamsGamesController {
-   
-      private $teamsGameManager;
+
+    private $teamsGameManager;
 
     public function __construct($teamsGameManager) {
         $this->teamsGameManager = $teamsGameManager;
     }
 
     public function addTeamsGame() {
+        $edit = 0;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            
-            $teamsGame =new TeamsGames();
+
+            $teamsGame = new TeamsGames();
             $teamsGame->setIdTeam($_POST['idTeam']);
             $teamsGame->setCurrentYear($_POST['currentYear']);
             $teamsGame->setGameDay($_POST['gameDay']);
             $teamsGame->setGameTime($_POST['gameTime']);
-            
+            try {
+                $this->validate($teamsGame,$edit);
+            } catch (Exception $e) {
+                $_SESSION["error"] = $e->getMessage();
+
+                return "/view/teamsGame/ajout-teamsGame.php";
+            }
             $this->teamsGameManager->create($teamsGame);
             $_SESSION["flash"] = "Match    " . $teamsGame->getIdTeamGame() . " ajouté avec succès";
             return "/view/bienvenue.php";
@@ -38,21 +45,21 @@ class TeamsGamesController {
     }
 
     public function editTeamsGame() {
-        
+        $edit = 1;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $teamsGame =new TeamsGames();
+            $teamsGame = new TeamsGames();
             $teamsGame->setIdTeamGame($_POST['idTeamGame']);
             $teamsGame->setIdTeam($_POST['idTeam']);
             $teamsGame->setCurrentYear($_POST['currentYear']);
             $teamsGame->setGameDay($_POST['gameDay']);
             $teamsGame->setGameTime($_POST['gameTime']);
-           
+
             try {
-                $this->validate($teamsGame);
+                $this->validate($teamsGame,$edit);
             } catch (Exception $e) {
                 $_SESSION["error"] = $e->getMessage();
                 $_GET["idTeamGame"] = $teamsGame->getIdTeamGame();
- 
+
                 return "/view/teamsGame/editer-teamsGame.php";
             }
             $this->teamsGameManager->update($teamsGame);
@@ -61,8 +68,8 @@ class TeamsGamesController {
             $_SESSION["flash"] = "Match " . $teamsGame->getIdTeamGame() . " édité avec succès";
             return "/view/bienvenue.php";
         }
-        
-      
+
+
         $id = $_GET["id"];
         $this->check($id);
         $_GET["idTeamGame"] = $id;
@@ -86,7 +93,6 @@ class TeamsGamesController {
         return '/view/bienvenue.php';
     }
 
-
     public function check($var) {
         if (!isset($var)) {
             header("Location: index.php");
@@ -94,26 +100,20 @@ class TeamsGamesController {
         return $var;
     }
 
-    public function validate($team) {
-//        $team = new Teams();
-//        if (strlen($team->getLabel()) < 2 || strlen($team->getLabel()) > 20) {
-//            
-//            throw new ValidationException("La taille du nom est incorrect");
-//        }
-//        if (strlen($team->getFirstname()) < 2 || strlen($team->getFirstname()) > 20) {
-//            throw new ValidationException("La taille du prénom est incorrect");
-//        }
-//        if (!filter_var($team->getMail(), FILTER_VALIDATE_EMAIL)) {
-//            throw new ValidationException("L'email est incorrect.");
-//        }
-//        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $team->getName())) {
-//            throw new ValidationException("Caractères incorrect dans le nom");
-//        }
-//        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $team->getFirstname())) {
-//            throw new ValidationException("Caractères incorrect dans le prénom");
-//        }
-//        if ($this->userManager->getByMail($team->getMail())) {
-//            throw new ValidationException("L'email existe déjà!");
-//        }
+    public function validate(TeamsGames $teamsgame, $edit) {
+
+        $now = new \DateTime();
+
+        if ($teamsgame->getCurrentYear() > date_parse($now->format('Y-m-d H:i:s'))["year"]) {
+            throw new ValidationException("Year Team incorrect ");
+        }
+
+        if ($edit == 0) {
+
+            if ($this->teamsGameManager->validate($teamsgame->getIdTeam(), $teamsgame->getGameDay())) {
+                throw new ValidationException("ce match existe déjà!!");
+            }
+        }
     }
+
 }

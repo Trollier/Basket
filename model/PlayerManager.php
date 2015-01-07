@@ -95,5 +95,21 @@ class PlayerManager {
         }
     }
     
+    
+        public function getByMail(Player $player){
+         $req = $this->_db->prepare("SELECT * FROM `players`  where  name=:name and firstname=:firstname  ");
+        try {
+            $req->bindValue(':firstname', $player->getFirstname());
+            $req->bindValue(':name', $player->getName());
+            $req->execute();
+            
+            $result = $req->fetchObject("Player");
+            return $result;
+          
+        } catch (Exception $ex) {
+            
+        }
+    }
+    
 
 }

@@ -10,6 +10,7 @@ class TypesMatchController {
     }
 
     public function addTypeMatch() {
+        $edit=0;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $typeMatch = new TypesMatchs();
@@ -17,7 +18,7 @@ class TypesMatchController {
             $typeMatch->setIdTypeMatch($_POST['idTypeMatch']);
             $typeMatch->setTypeMatch($_POST['typeMatch']);
             try {
-                $this->validate($typeMatch);
+                $this->validate($typeMatch,$edit);
             } catch (Exception $e) {
                 $_SESSION["error"] = $e->getMessage();
                 return '/view/typeMatch/ajout-typeMatch-form.php';
@@ -42,13 +43,14 @@ class TypesMatchController {
     }
 
     public function editTypeMatch() {
+        $edit=1;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $typeMatch = new TypesMatchs();
 
             $typeMatch->setIdTypeMatch($_POST['idTypeMatch']);
             $typeMatch->setTypeMatch($_POST['typeMatch']);
             try {
-                $this->validate($typeMatch);
+                $this->validate($typeMatch,$edit);
             } catch (Exception $e) {
                 $_SESSION["error"] = $e->getMessage();
                 return '/view/typeMatch/ajout-typeMatch-form.php';
@@ -90,26 +92,29 @@ class TypesMatchController {
         }
         return $var;
     }
-    public function validate($typeMatch) {
-//        
-//        if (strlen($typeMatch->getName()) < 2 || strlen($typeMatch->getName()) > 20) {
-//            
-//            throw new ValidationException("La taille du nom est incorrect");
-//        }
-//        if (strlen($typeMatch->getFirstname()) < 2 || strlen($typeMatch->getFirstname()) > 20) {
-//            throw new ValidationException("La taille du prénom est incorrect");
-//        }
-//        if (!filter_var($typeMatch->getMail(), FILTER_VALIDATE_EMAIL)) {
-//            throw new ValidationException("L'email est incorrect.");
-//        }
-//        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $typeMatch->getName())) {
-//            throw new ValidationException("Caractères incorrect dans le nom");
-//        }
-//        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $typeMatch->getFirstname())) {
-//            throw new ValidationException("Caractères incorrect dans le prénom");
-//        }
-//        if ($this->userManager->getByMail($typeMatch->getMail())) {
-//            throw new ValidationException("L'email existe déjà!");
-//        }
+    public function validate(TypesMatchs $typeMatch,$edit) {
+        
+        if (strlen($typeMatch->getTypeMatch()) < 2 || strlen($typeMatch->getTypeMatch()) > 20) {
+            
+            throw new ValidationException("La taille du nom est incorrect");
+        }
+
+        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $typeMatch->getTypeMatch())) {
+            throw new ValidationException("Caractères incorrect Type");
+        }
+        
+        if (strlen($typeMatch->getIdTypeMatch()) < 2 || strlen($typeMatch->getIdTypeMatch()) > 20) {
+            
+            throw new ValidationException("La taille du nom est incorrect");
+        }
+
+        if (!preg_match('/^[\pL\p{Mc} \'-]+$/u', $typeMatch->getIdTypeMatch())) {
+            throw new ValidationException("Caractères incorrect idTypeMatch");
+        }
+          if($edit==0){
+        if ($this->typesMatchManager->validate($typeMatch)){
+            throw new ValidationException("existe déja");
+        }
+          }
     }
 }
